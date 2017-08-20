@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpctools.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpctools.FXMLDocumentController">
+   <children>
+      <AnchorPane fx:id="topbar" prefHeight="100.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+         <children>
+            <ImageView layoutX="138.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/home.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="446.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/convert.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="778.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/map.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="1085.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/settings.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="convert" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" />
+      <AnchorPane fx:id="settings" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+         <children>
+            <Label layoutX="56.0" layoutY="56.0" text="Setting 1" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXToggleButton layoutX="262.0" layoutY="42.0" text="On" textFill="#eda678" toggleColor="#eda678" toggleLineColor="#eba478">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXToggleButton>
+            <Label layoutX="56.0" layoutY="96.0" text="The description of setting 1. " textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="130.0" text="Setting 2" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXToggleButton layoutX="262.0" layoutY="116.0" text="On" textFill="#eda678" toggleColor="#eda678" toggleLineColor="#eba478">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXToggleButton>
+            <Label layoutX="56.0" layoutY="170.0" text="The description of setting 2. " textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="47.0" layoutY="336.0" prefHeight="0.0" prefWidth="1178.0" />
+            <JFXSlider layoutX="47.0" layoutY="414.0" prefHeight="15.0" prefWidth="388.0" />
+            <Label layoutX="56.0" layoutY="372.0" text="Setting 3" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="997.0" layoutY="559.0" prefHeight="48.0" prefWidth="211.0" style="-fx-background-color: #eda678; -fx-border-radius: 5em; -fx-background-radius: 2em;" text="Save">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="736.0" layoutY="558.0" prefHeight="48.0" prefWidth="211.0" style="-fx-background-color: #515D6D; -fx-border-radius: 5em; -fx-background-radius: 2em;" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="home" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" />
+   </children>
 </AnchorPane>
