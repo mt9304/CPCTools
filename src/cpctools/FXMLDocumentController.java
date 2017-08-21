@@ -7,10 +7,11 @@ package cpctools;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -20,13 +21,24 @@ public class FXMLDocumentController implements Initializable
 {
     
     @FXML
-    private Label label;
+    private ImageView btn_settings,btn_home;
+    @FXML
+    private AnchorPane h_settings, h_home;
     
     @FXML
-    private void handleButtonAction(ActionEvent event)
+    private void handleButtonAction(MouseEvent event)
     {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+        if(event.getTarget() == btn_settings)
+        {
+            h_settings.setVisible(true);
+            h_home.setVisible(false);
+        }
+        else
+            if(event.getTarget() == btn_home)
+            {
+                h_home.setVisible(true);
+                h_settings.setVisible(false);
+            }
     }
     
     @Override
