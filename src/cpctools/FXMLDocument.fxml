@@ -25,12 +25,12 @@
                   <Image url="@images/home.png" />
                </image>
             </ImageView>
-            <ImageView layoutX="446.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_convert" layoutX="446.0" layoutY="19.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/convert.png" />
                </image>
             </ImageView>
-            <ImageView layoutX="778.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_map" layoutX="778.0" layoutY="17.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/map.png" />
                </image>

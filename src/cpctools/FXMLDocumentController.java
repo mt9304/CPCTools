@@ -22,12 +22,13 @@ public class FXMLDocumentController implements Initializable
 {
     
     @FXML
-    private ImageView btn_settings,btn_home;
+    private ImageView btn_settings,btn_home, btn_convert, btn_map;
     @FXML
-    private AnchorPane h_settings, h_home;
+    private AnchorPane h_settings, h_home, h_convert, h_map;
     @FXML
     private Rectangle m_current_pane;
     
+    //Handles changing panes for the main menu. 
     @FXML
     private void handleButtonAction(MouseEvent event)
     {
@@ -35,6 +36,8 @@ public class FXMLDocumentController implements Initializable
         {
             h_settings.setVisible(true);
             h_home.setVisible(false);
+            h_convert.setVisible(false);
+            h_map.setVisible(false);
             m_current_pane.setLayoutX(1060);
         }
         else
@@ -42,7 +45,27 @@ public class FXMLDocumentController implements Initializable
             {
                 h_home.setVisible(true);
                 h_settings.setVisible(false);
+                h_convert.setVisible(false);
+                h_map.setVisible(false);
                 m_current_pane.setLayoutX(113);
+            }
+        else
+            if(event.getTarget() == btn_convert)
+            {
+                h_convert.setVisible(true);
+                h_settings.setVisible(false);
+                h_home.setVisible(false);
+                h_map.setVisible(false);
+                m_current_pane.setLayoutX(431);
+            }
+        else
+            if(event.getTarget() == btn_map)
+            {
+                h_map.setVisible(true);
+                h_convert.setVisible(false);
+                h_settings.setVisible(false);
+                h_home.setVisible(false);
+                m_current_pane.setLayoutX(753);
             }
     }
     
