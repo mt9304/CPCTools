@@ -8,35 +8,17 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #545454;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpctools.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #424e5a;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpctools.FXMLDocumentController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView fitHeight="87.0" fitWidth="87.0" layoutX="126.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/triangle.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="87.0" layoutX="435.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/triangle.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="87.0" layoutX="765.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/triangle.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="87.0" layoutX="1073.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/triangle.png" />
-               </image>
-            </ImageView>
+            <Rectangle fx:id="m_current_pane" arcHeight="5.0" arcWidth="5.0" fill="#8c8890" height="25.0" layoutX="113.0" layoutY="104.0" stroke="#8c8890" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="topbar" prefHeight="100.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="topbar" prefHeight="113.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
          <children>
             <ImageView fx:id="btn_home" layoutX="138.0" layoutY="21.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -112,7 +94,7 @@
          </children>
       </AnchorPane>
       <AnchorPane fx:id="h_map" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false" />
-      <AnchorPane fx:id="h_convert" layoutX="13.0" layoutY="130.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="h_convert" layoutY="130.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
             <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: #C0C0C0;" text="Browse">
                <font>
@@ -120,7 +102,7 @@
                </font>
             </JFXButton>
          </children></AnchorPane>
-      <AnchorPane fx:id="h_home" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false">
+      <AnchorPane fx:id="h_home" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
          <children>
             <Label layoutX="98.0" layoutY="85.0" text="Welcome" textFill="WHITE">
                <font>
