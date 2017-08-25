@@ -96,7 +96,7 @@
       <AnchorPane fx:id="h_map" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false" />
       <AnchorPane fx:id="h_convert" layoutY="130.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
-            <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: #C0C0C0;" text="Browse">
+            <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" onMousePressed="#browseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: #C0C0C0;" text="Browse">
                <font>
                   <Font size="18.0" />
                </font>
