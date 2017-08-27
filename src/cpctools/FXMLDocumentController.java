@@ -30,6 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -118,15 +119,16 @@ public class FXMLDocumentController implements Initializable
     }
     
     @FXML
-    private void convertFile(MouseEvent event) throws IOException
+    private void convertFile(MouseEvent event) throws IOException, InvalidFormatException
     {
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
         
         //Remember to make sense of this. Maybe just use file input stream in the browseFile function instead of delcaring so much. 
         //Also, need to add as many jars needed, xmlbeans.2.6.0 too. 
-        InputStream ExcelFileToRead = new FileInputStream(selectedFile);
-        XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+        //InputStream ExcelFileToRead = new FileInputStream(selectedFile);
+        //XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+        XSSFWorkbook wb = new XSSFWorkbook(selectedFile);
         System.out.println(wb.getSheetAt(0).getRow(0).getCell(0));
     }
 
