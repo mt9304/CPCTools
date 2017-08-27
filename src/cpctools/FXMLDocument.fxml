@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Label?>
@@ -96,7 +97,7 @@
       <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false" />
       <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
          <children>
-            <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" onMousePressed="#browseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: #C0C0C0;" text="Browse">
+            <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" onMousePressed="#browseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse">
                <font>
                   <Font size="18.0" />
                </font>
@@ -106,6 +107,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <JFXButton fx:id="btn_convertfile" layoutX="99.0" layoutY="225.0" onMousePressed="#convertFile" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: white;" text="Convert">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXProgressBar fx:id="m_progressbar" layoutX="99.0" layoutY="294.0" />
          </children></AnchorPane>
       <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>

@@ -6,6 +6,7 @@
 package cpctools;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,9 +36,12 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private Rectangle m_current_pane;
     @FXML
-    private JFXButton btn_browse;
+    private JFXButton btn_browse, btn_convertfile;
     @FXML
     private Label l_filename;
+    @FXML
+    private JFXProgressBar m_progressbar;
+    
 
     //Handles changing panes for the main menu. 
     @FXML
@@ -77,7 +81,6 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void browseFile(MouseEvent event)
     {
-        
             System.out.println("Pressed Browse. ");
             Node source = (Node) event.getSource();
             Window mainStage = source.getScene().getWindow();
@@ -92,17 +95,23 @@ public class FXMLDocumentController implements Initializable
             File selectedFile = fileChooser.showOpenDialog(mainStage);
             if (selectedFile != null)
             {
-                //mainStage.display(selectedFile);
                 l_filename.setText(selectedFile.getName());
+                btn_convertfile.setDisable(false);
             }
-        
-
+    }
+    
+    @FXML
+    private void convertFile(MouseEvent event)
+    {
+        System.out.println("Converting file. ");
+        m_progressbar.setDisable(false);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        btn_convertfile.setDisable(true);
+        m_progressbar.setDisable(true);
     }
 
 }
