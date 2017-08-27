@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,11 +31,13 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private ImageView btn_settings, btn_home, btn_convert, btn_map;
     @FXML
-    private AnchorPane h_settings, h_home, h_convert, h_map;
+    private AnchorPane t_settings, t_home, t_convert, t_map;
     @FXML
     private Rectangle m_current_pane;
     @FXML
     private JFXButton btn_browse;
+    @FXML
+    private Label l_filename;
 
     //Handles changing panes for the main menu. 
     @FXML
@@ -42,31 +45,31 @@ public class FXMLDocumentController implements Initializable
     {
         if (event.getTarget() == btn_settings)
         {
-            h_settings.setVisible(true);
-            h_home.setVisible(false);
-            h_convert.setVisible(false);
-            h_map.setVisible(false);
+            t_settings.setVisible(true);
+            t_home.setVisible(false);
+            t_convert.setVisible(false);
+            t_map.setVisible(false);
             m_current_pane.setLayoutX(1060);
         } else if (event.getTarget() == btn_home)
         {
-            h_home.setVisible(true);
-            h_settings.setVisible(false);
-            h_convert.setVisible(false);
-            h_map.setVisible(false);
+            t_home.setVisible(true);
+            t_settings.setVisible(false);
+            t_convert.setVisible(false);
+            t_map.setVisible(false);
             m_current_pane.setLayoutX(113);
         } else if (event.getTarget() == btn_convert)
         {
-            h_convert.setVisible(true);
-            h_settings.setVisible(false);
-            h_home.setVisible(false);
-            h_map.setVisible(false);
+            t_convert.setVisible(true);
+            t_settings.setVisible(false);
+            t_home.setVisible(false);
+            t_map.setVisible(false);
             m_current_pane.setLayoutX(431);
         } else if (event.getTarget() == btn_map)
         {
-            h_map.setVisible(true);
-            h_convert.setVisible(false);
-            h_settings.setVisible(false);
-            h_home.setVisible(false);
+            t_map.setVisible(true);
+            t_convert.setVisible(false);
+            t_settings.setVisible(false);
+            t_home.setVisible(false);
             m_current_pane.setLayoutX(753);
         }
     }
@@ -90,6 +93,7 @@ public class FXMLDocumentController implements Initializable
             if (selectedFile != null)
             {
                 //mainStage.display(selectedFile);
+                l_filename.setText(selectedFile.getName());
             }
         
 
