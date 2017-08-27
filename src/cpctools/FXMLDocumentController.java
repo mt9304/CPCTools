@@ -8,6 +8,10 @@ package cpctools;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,6 +25,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
 
 /**
  *
@@ -41,6 +57,8 @@ public class FXMLDocumentController implements Initializable
     private Label l_filename;
     @FXML
     private JFXProgressBar m_progressbar;
+    
+    File selectedFile;
     
 
     //Handles changing panes for the main menu. 
@@ -88,23 +106,28 @@ public class FXMLDocumentController implements Initializable
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
             fileChooser.getExtensionFilters().addAll(
-                    new ExtensionFilter("Text Files", "*.txt"),
-                    new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
-                    new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+                    new ExtensionFilter("Excel Files", "*.xlsx"),
                     new ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(mainStage);
+            selectedFile = fileChooser.showOpenDialog(mainStage);
             if (selectedFile != null)
             {
                 l_filename.setText(selectedFile.getName());
                 btn_convertfile.setDisable(false);
+                
             }
     }
     
     @FXML
-    private void convertFile(MouseEvent event)
+    private void convertFile(MouseEvent event) throws IOException
     {
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
+        
+        //Remember to make sense of this. Maybe just use file input stream in the browseFile function instead of delcaring so much. 
+        //Also, need to add as many jars needed, xmlbeans.2.6.0 too. 
+        InputStream ExcelFileToRead = new FileInputStream(selectedFile);
+        XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+        System.out.println(wb.getSheetAt(0).getRow(0).getCell(0));
     }
 
     @Override
