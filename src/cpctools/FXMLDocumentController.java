@@ -130,6 +130,7 @@ public class FXMLDocumentController implements Initializable
         //XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
         XSSFWorkbook wb = new XSSFWorkbook(selectedFile);
         System.out.println(wb.getSheetAt(0).getRow(0).getCell(0));
+        System.out.println(wb.getSheetAt(1).getRow(1).getCell(1));
     }
 
     @Override
