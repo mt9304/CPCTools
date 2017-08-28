@@ -26,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
+/*
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -36,11 +37,15 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+*/
+
 import com.monitorjbl.xlsx.StreamingReader;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,17 +147,28 @@ public class FXMLDocumentController implements Initializable
                         .bufferSize(4096)
                         .open(is))
         {
-            Sheet sheet = workbook.getSheet("Sheet2");
+            Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets()-1);
+            
+            //System.out.println("Row: " + sheet.getRow(1));
             
                 System.out.println(sheet.getSheetName());
+                
+                //Apparently cant seek with this library, have to iterate through
+                System.out.println(sheet.getRow(1).getCell(2).getStringCellValue());
+                /*
+                int temp = 0;
                 for (Row r : sheet)
                 {
+
                     for (Cell c : r)
                     {
                         System.out.println(c.getStringCellValue());
+                        
+                        temp++;
                     }
                 }
-            
+                System.out.println(temp);
+                */
         }
     }
 
