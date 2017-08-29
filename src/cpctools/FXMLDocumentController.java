@@ -37,9 +37,11 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-*/
-
+ */
 import com.monitorjbl.xlsx.StreamingReader;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwind.geom.coords.UTMCoord;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -147,33 +149,76 @@ public class FXMLDocumentController implements Initializable
                         .bufferSize(4096)
                         .open(is))
         {
-            Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets()-1);
-            
+            Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets() - 1);
+
             //System.out.println("Row: " + sheet.getRow(1));
-            
-                System.out.println(sheet.getSheetName());
-                
-                //Apparently cant seek with this library, have to iterate through
-                System.out.println(sheet.getRow(1).getCell(2).getStringCellValue());
-                /*
-                int temp = 0;
-                for (Row r : sheet)
+            System.out.println(sheet.getSheetName());
+
+            LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
+            double latitude = latLon.getLatitude().degrees;
+            double longitude = latLon.getLongitude().degrees;
+
+            int counter = 0;
+            String lat = "";
+            String lon = "";
+            for (Row r : sheet)
+            {
+                for (Cell c : r)
                 {
 
-                    for (Cell c : r)
+                    if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
                     {
-                        System.out.println(c.getStringCellValue());
-                        
-                        temp++;
+                        System.out.print(c.getStringCellValue() + "\t");
+                    } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                    {
+                        if ("0".equals(c.getStringCellValue()))
+                        {
+                            System.out.print("0" + "\t");
+                        } else if ("X".equals(c.getStringCellValue()))
+                        {
+                            System.out.print("X" + "\t");
+                        } else
+                        {
+                            lat = c.getStringCellValue();
+                        }
+                    } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                    {
+                        if ("0".equals(c.getStringCellValue()))
+                        {
+                            System.out.print("0" + "\n");
+                        } else if ("Y".equals(c.getStringCellValue()))
+                        {
+                            System.out.println("Y");
+                        } else
+                        {
+                            lon = c.getStringCellValue();
+                            latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
+                            latitude = latLon.getLatitude().degrees;
+                            longitude = latLon.getLongitude().degrees;
+                            System.out.println(latitude + "\t" + longitude);
+                        }
+                    } else
+                    {
+                        System.out.println("Something went wrong. ");
                     }
+
+                    /*
+                        latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
+                        latitude = latLon.getLatitude().degrees;
+                        longitude = latLon.getLongitude().degrees;
+
+                        System.out.println(c);
+                        System.out.println(c.getStringCellValue());
+                     */
+                    counter++;
                 }
-                System.out.println(temp);
-                */
+            }
         }
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
+    public void initialize(URL url, ResourceBundle rb
+    )
     {
         btn_convertfile.setDisable(true);
         m_progressbar.setDisable(true);
