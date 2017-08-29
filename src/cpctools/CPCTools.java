@@ -5,6 +5,9 @@
  */
 package cpctools;
 
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwind.geom.coords.UTMCoord;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -55,12 +58,19 @@ public class CPCTools extends Application
         stage.setScene(scene);
         stage.show();
     }
+    
+
+        
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
+        LatLon latLon = UTMCoord.locationFromUTMCoord(10,AVKey.NORTH,490599.86,5458794.84);
+        double latitude = latLon.getLatitude().degrees;
+        double longitude = latLon.getLongitude().degrees;
+        System.out.println(latitude + " " + longitude);
         launch(args);
     }
 
