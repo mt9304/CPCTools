@@ -42,6 +42,8 @@ import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -70,7 +72,10 @@ public class FXMLDocumentController implements Initializable
     private Label l_filename;
     @FXML
     private JFXProgressBar m_progressbar;
-
+    @FXML
+    private WebView mc_map;
+    
+    private WebEngine webengine ;
     File selectedFile;
 
     //Handles changing panes for the main menu. 
@@ -230,6 +235,9 @@ public class FXMLDocumentController implements Initializable
     {
         btn_convertfile.setDisable(true);
         m_progressbar.setDisable(true);
+        
+        this.webengine = this.mc_map.getEngine();
+        this.webengine.load("http://www.oracle.com/us/products/index.html ");
     }
 
 }

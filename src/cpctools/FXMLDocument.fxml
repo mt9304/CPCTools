@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #424e5a;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpctools.FXMLDocumentController">
    <children>
@@ -94,8 +95,11 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false" />
-      <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;">
+         <children>
+            <WebView fx:id="mc_map" layoutX="114.0" layoutY="35.0" prefHeight="524.0" prefWidth="1053.0" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="675.0" prefWidth="1280.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
             <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" onMousePressed="#browseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse">
                <font>
