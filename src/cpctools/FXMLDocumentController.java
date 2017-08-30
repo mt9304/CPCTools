@@ -163,54 +163,62 @@ public class FXMLDocumentController implements Initializable
             String lon = "";
             for (Row r : sheet)
             {
-                for (Cell c : r)
+                for (int i = 0; i < 10; i++)    //Need to use iterators to get null values between columns. 
                 {
-
-                    if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
+                    Cell c = r.getCell(i);
+                    if (c == null)
                     {
-                        System.out.print(c.getStringCellValue() + "\t");
-                    } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
-                    {
-                        if ("0".equals(c.getStringCellValue()))
-                        {
-                            System.out.print("0" + "\t");
-                        } else if ("X".equals(c.getStringCellValue()))
-                        {
-                            System.out.print("X" + "\t");
-                        } else
-                        {
-                            lat = c.getStringCellValue();
-                        }
-                    } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
-                    {
-                        if ("0".equals(c.getStringCellValue()))
-                        {
-                            System.out.print("0" + "\n");
-                        } else if ("Y".equals(c.getStringCellValue()))
-                        {
-                            System.out.println("Y");
-                        } else
-                        {
-                            lon = c.getStringCellValue();
-                            latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
-                            latitude = latLon.getLatitude().degrees;
-                            longitude = latLon.getLongitude().degrees;
-                            System.out.println(latitude + "\t" + longitude);
-                        }
+                        System.out.print("N/A" + "\t");
+                        counter++;
                     } else
                     {
-                        System.out.println("Something went wrong. ");
-                    }
 
-                    /*
+                        if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
+                        {
+                            System.out.print(c.getStringCellValue() + "\t");
+                        } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                        {
+                            if ("0".equals(c.getStringCellValue()))
+                            {
+                                System.out.print("0" + "\t");
+                            } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
+                            {
+                                System.out.print("X" + "\t");
+                            } else
+                            {
+                                lat = c.getStringCellValue();
+                            }
+                        } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                        {
+                            if ("0".equals(c.getStringCellValue()))
+                            {
+                                System.out.println("0");
+                            } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
+                            {
+                                System.out.println("Y");
+                            } else
+                            {
+                                lon = c.getStringCellValue(); //Getting lat from instance variable. Need to enter both values for conversion function, but can't seek previous value in stream. 
+                                latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
+                                latitude = latLon.getLatitude().degrees;
+                                longitude = latLon.getLongitude().degrees;
+                                System.out.println(latitude + "\t" + longitude);
+                            }
+                        } else
+                        {
+                            System.out.println("Something went wrong. ");
+                        }
+
+                        /*
                         latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
                         latitude = latLon.getLatitude().degrees;
                         longitude = latLon.getLongitude().degrees;
 
                         System.out.println(c);
                         System.out.println(c.getStringCellValue());
-                     */
-                    counter++;
+                         */
+                        counter++;
+                    }
                 }
             }
         }
