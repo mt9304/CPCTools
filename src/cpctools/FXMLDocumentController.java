@@ -237,7 +237,7 @@ public class FXMLDocumentController implements Initializable
         m_progressbar.setDisable(true);
         
         this.webengine = this.mc_map.getEngine();
-        this.webengine.load("http://www.oracle.com/us/products/index.html ");
+        this.webengine.load("http://www.oracle.com/us/products/index.html");
     }
 
 }
