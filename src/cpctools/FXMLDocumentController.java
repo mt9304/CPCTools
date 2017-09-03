@@ -151,7 +151,7 @@ public class FXMLDocumentController implements Initializable
             //System.out.println("Row: " + sheet.getRow(1));
             System.out.println(sheet.getSheetName());
 
-            PrintWriter f0 = new PrintWriter(new FileWriter("output.txt"));
+            PrintWriter tdfile = new PrintWriter(new FileWriter("output.txt"));
 
             LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
             double latitude = latLon.getLatitude().degrees;
@@ -168,7 +168,7 @@ public class FXMLDocumentController implements Initializable
                     if (c == null || "".equals(c.getStringCellValue()))
                     {
                         System.out.print("N/A" + "\t");
-                        //f0.println("test" + counter);
+                        tdfile.print("N/A" + "\t");
                         counter++;
                     } else
                     {
@@ -176,15 +176,17 @@ public class FXMLDocumentController implements Initializable
                         if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
                         {
                             System.out.print(c.getStringCellValue() + "\t");
-                            //f0.println("test" + counter);
+                            tdfile.print(c.getStringCellValue() + "\t");
                         } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
                         {
                             if ("0".equals(c.getStringCellValue()))
                             {
                                 System.out.print("0" + "\t");
+                                tdfile.print("0" + "\t");
                             } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
                             {
                                 System.out.print("X" + "\t");
+                                tdfile.print("X" + "\t");
                             } else
                             {
                                 lat = c.getStringCellValue();
@@ -194,9 +196,11 @@ public class FXMLDocumentController implements Initializable
                             if ("0".equals(c.getStringCellValue()))
                             {
                                 System.out.println("0");
+                                tdfile.println("0");
                             } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
                             {
                                 System.out.println("Y");
+                                tdfile.println("Y");
                             } else
                             {
                                 lon = c.getStringCellValue(); //Getting lat from instance variable. Need to enter both values for conversion function, but can't seek previous value in stream. 
@@ -204,6 +208,7 @@ public class FXMLDocumentController implements Initializable
                                 latitude = latLon.getLatitude().degrees;
                                 longitude = latLon.getLongitude().degrees;
                                 System.out.println(latitude + "\t" + longitude);
+                                tdfile.println(latitude + "\t" + longitude);
                             }
                         } else
                         {
@@ -214,7 +219,7 @@ public class FXMLDocumentController implements Initializable
                     }
                 }
             }
-            f0.close();
+            tdfile.close();
         }
     }
 
