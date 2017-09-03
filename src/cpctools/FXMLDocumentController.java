@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -42,6 +41,9 @@ import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -49,9 +51,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellAddress;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -74,8 +73,8 @@ public class FXMLDocumentController implements Initializable
     private JFXProgressBar m_progressbar;
     @FXML
     private WebView mc_map;
-    
-    private WebEngine webengine ;
+
+    private WebEngine webengine;
     File selectedFile;
 
     //Handles changing panes for the main menu. 
@@ -140,13 +139,6 @@ public class FXMLDocumentController implements Initializable
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
 
-        //Remember to make sense of this. Maybe just use file input stream in the browseFile function instead of delcaring so much. 
-        //Also, need to add as many jars needed, xmlbeans.2.6.0 too. 
-        //InputStream ExcelFileToRead = new FileInputStream(selectedFile);
-        //XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
-        //XSSFWorkbook wb = new XSSFWorkbook(selectedFile);
-        //System.out.println(wb.getSheetAt(0).getRow(0).getCell(0));
-        //System.out.println(wb.getSheetAt(1).getRow(1).getCell(1));
         try (
                 InputStream is = new FileInputStream(selectedFile);
                 Workbook workbook = StreamingReader.builder()
@@ -158,6 +150,8 @@ public class FXMLDocumentController implements Initializable
 
             //System.out.println("Row: " + sheet.getRow(1));
             System.out.println(sheet.getSheetName());
+
+            PrintWriter f0 = new PrintWriter(new FileWriter("output.txt"));
 
             LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
             double latitude = latLon.getLatitude().degrees;
@@ -171,9 +165,10 @@ public class FXMLDocumentController implements Initializable
                 for (int i = 0; i < 10; i++)    //Need to use iterators to get null values between columns. 
                 {
                     Cell c = r.getCell(i);
-                    if (c == null)
+                    if (c == null || "".equals(c.getStringCellValue()))
                     {
                         System.out.print("N/A" + "\t");
+                        //f0.println("test" + counter);
                         counter++;
                     } else
                     {
@@ -181,6 +176,7 @@ public class FXMLDocumentController implements Initializable
                         if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
                         {
                             System.out.print(c.getStringCellValue() + "\t");
+                            //f0.println("test" + counter);
                         } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
                         {
                             if ("0".equals(c.getStringCellValue()))
@@ -214,18 +210,11 @@ public class FXMLDocumentController implements Initializable
                             System.out.println("Something went wrong. ");
                         }
 
-                        /*
-                        latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
-                        latitude = latLon.getLatitude().degrees;
-                        longitude = latLon.getLongitude().degrees;
-
-                        System.out.println(c);
-                        System.out.println(c.getStringCellValue());
-                         */
                         counter++;
                     }
                 }
             }
+            f0.close();
         }
     }
 
@@ -235,7 +224,7 @@ public class FXMLDocumentController implements Initializable
     {
         btn_convertfile.setDisable(true);
         m_progressbar.setDisable(true);
-        
+
         this.webengine = this.mc_map.getEngine();
         this.webengine.load("https://www.google.ca/maps");
     }
