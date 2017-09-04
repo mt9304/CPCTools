@@ -7,6 +7,7 @@ package cpctools;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,6 +45,9 @@ import gov.nasa.worldwind.geom.coords.UTMCoord;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -71,6 +75,8 @@ public class FXMLDocumentController implements Initializable
     private Label l_filename;
     @FXML
     private JFXProgressBar m_progressbar;
+    @FXML
+    private JFXTextField m_progresstext;
     @FXML
     private WebView mc_map;
 
@@ -138,7 +144,31 @@ public class FXMLDocumentController implements Initializable
     {
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
+        m_progresstext.setStyle("-fx-text-inner-color: white;");
+        
+        Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run() 
+            {
+                try
+                {
+                    //Update your GUI here
+                startConvert();
+                } catch (IOException ex)
+                {
+                    System.out.print("Something went wrong. "+ex);
+                } catch (InvalidFormatException ex)
+                {
+                    System.out.print("Something went wrong. "+ex);
+                }
+            }
+        });
 
+    }
+
+    private void startConvert() throws IOException, InvalidFormatException
+    {
         try (
                 InputStream is = new FileInputStream(selectedFile);
                 Workbook workbook = StreamingReader.builder()
@@ -218,6 +248,7 @@ public class FXMLDocumentController implements Initializable
                         counter++;
                     }
                 }
+                m_progresstext.setText("Rows Processed: " + counter/10);
             }
             tdfile.close();
         }
