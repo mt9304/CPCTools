@@ -45,9 +45,11 @@ import gov.nasa.worldwind.geom.coords.UTMCoord;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -140,12 +142,17 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void convertFile(MouseEvent event) throws IOException, InvalidFormatException
+    private void convertFile(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
         m_progresstext.setStyle("-fx-text-inner-color: white;");
-        
+
+        ConvertText task = new ConvertText();
+
+        new Thread(task).start();
+
+        /*
         Platform.runLater(new Runnable()
         {
             @Override
@@ -164,93 +171,99 @@ public class FXMLDocumentController implements Initializable
                 }
             }
         });
-
+         */
     }
 
-    private void startConvert() throws IOException, InvalidFormatException
+    class ConvertText extends Task<Integer>
     {
-        try (
-                InputStream is = new FileInputStream(selectedFile);
-                Workbook workbook = StreamingReader.builder()
-                        .rowCacheSize(100)
-                        .bufferSize(4096)
-                        .open(is))
+        @Override
+        protected Integer call() throws Exception
         {
-            Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets() - 1);
-
-            //System.out.println("Row: " + sheet.getRow(1));
-            System.out.println(sheet.getSheetName());
-
-            PrintWriter tdfile = new PrintWriter(new FileWriter("output.txt"));
-
-            LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
-            double latitude = latLon.getLatitude().degrees;
-            double longitude = latLon.getLongitude().degrees;
-
-            int counter = 0;
-            String lat = "";
-            String lon = "";
-            for (Row r : sheet)
+            try (
+                    InputStream is = new FileInputStream(selectedFile);
+                    Workbook workbook = StreamingReader.builder()
+                            .rowCacheSize(100)
+                            .bufferSize(4096)
+                            .open(is))
             {
-                for (int i = 0; i < 10; i++)    //Need to use iterators to get null values between columns. 
-                {
-                    Cell c = r.getCell(i);
-                    if (c == null || "".equals(c.getStringCellValue()))
-                    {
-                        System.out.print("N/A" + "\t");
-                        tdfile.print("N/A" + "\t");
-                        counter++;
-                    } else
-                    {
+                Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets() - 1);
 
-                        if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
+                //System.out.println("Row: " + sheet.getRow(1));
+                System.out.println(sheet.getSheetName());
+
+                PrintWriter tdfile = new PrintWriter(new FileWriter("output.txt"));
+
+                LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
+                double latitude = latLon.getLatitude().degrees;
+                double longitude = latLon.getLongitude().degrees;
+
+                int counter = 0;
+                String lat = "";
+                String lon = "";
+                for (Row r : sheet)
+                {
+                    for (int i = 0; i < 10; i++)    //Need to use iterators to get null values between columns. 
+                    {
+                        Cell c = r.getCell(i);
+                        if (c == null || "".equals(c.getStringCellValue()))
                         {
-                            System.out.print(c.getStringCellValue() + "\t");
-                            tdfile.print(c.getStringCellValue() + "\t");
-                        } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
-                        {
-                            if ("0".equals(c.getStringCellValue()))
-                            {
-                                System.out.print("0" + "\t");
-                                tdfile.print("0" + "\t");
-                            } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
-                            {
-                                System.out.print("X" + "\t");
-                                tdfile.print("X" + "\t");
-                            } else
-                            {
-                                lat = c.getStringCellValue();
-                            }
-                        } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
-                        {
-                            if ("0".equals(c.getStringCellValue()))
-                            {
-                                System.out.println("0");
-                                tdfile.println("0");
-                            } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
-                            {
-                                System.out.println("Y");
-                                tdfile.println("Y");
-                            } else
-                            {
-                                lon = c.getStringCellValue(); //Getting lat from instance variable. Need to enter both values for conversion function, but can't seek previous value in stream. 
-                                latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
-                                latitude = latLon.getLatitude().degrees;
-                                longitude = latLon.getLongitude().degrees;
-                                System.out.println(latitude + "\t" + longitude);
-                                tdfile.println(latitude + "\t" + longitude);
-                            }
+                            System.out.print("N/A" + "\t");
+                            tdfile.print("N/A" + "\t");
+                            counter++;
                         } else
                         {
-                            System.out.println("Something went wrong. ");
-                        }
 
-                        counter++;
+                            if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
+                            {
+                                System.out.print(c.getStringCellValue() + "\t");
+                                tdfile.print(c.getStringCellValue() + "\t");
+                            } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                            {
+                                if ("0".equals(c.getStringCellValue()))
+                                {
+                                    System.out.print("0" + "\t");
+                                    tdfile.print("0" + "\t");
+                                } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
+                                {
+                                    System.out.print("X" + "\t");
+                                    tdfile.print("X" + "\t");
+                                } else
+                                {
+                                    lat = c.getStringCellValue();
+                                }
+                            } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                            {
+                                if ("0".equals(c.getStringCellValue()))
+                                {
+                                    System.out.println("0");
+                                    tdfile.println("0");
+                                } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
+                                {
+                                    System.out.println("Y");
+                                    tdfile.println("Y");
+                                } else
+                                {
+                                    lon = c.getStringCellValue(); //Getting lat from instance variable. Need to enter both values for conversion function, but can't seek previous value in stream. 
+                                    latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
+                                    latitude = latLon.getLatitude().degrees;
+                                    longitude = latLon.getLongitude().degrees;
+                                    System.out.println(latitude + "\t" + longitude);
+                                    tdfile.println(latitude + "\t" + longitude);
+                                }
+                            } else
+                            {
+                                System.out.println("Something went wrong. ");
+                            }
+
+                            counter++;
+                        }
                     }
+                    //m_progresstext.setText("Rows Processed: " + counter / 10);
                 }
-                m_progresstext.setText("Rows Processed: " + counter/10);
+                tdfile.close();
             }
-            tdfile.close();
+            return 1;
+
         }
     }
 
