@@ -137,7 +137,9 @@ public class FXMLDocumentController implements Initializable
         {
             l_filename.setText(selectedFile.getName());
             btn_convertfile.setDisable(false);
-
+            m_progresstext.setVisible(false);
+            m_completedtext.setVisible(false);
+            m_checkmark.setVisible(false);
         }
     }
 
@@ -147,6 +149,7 @@ public class FXMLDocumentController implements Initializable
         System.out.println("Converting file. ");
         m_progressbar.setDisable(false);
         m_progresstext.setStyle("-fx-text-inner-color: white;");
+        m_progresstext.setVisible(true);
 
         ConvertText task = new ConvertText();
         new Thread(task).start();
