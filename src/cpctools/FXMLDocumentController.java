@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable
 {
 
     @FXML
-    private ImageView btn_settings, btn_home, btn_convert, btn_map;
+    private ImageView btn_settings, btn_home, btn_convert, btn_map, m_checkmark;
     @FXML
     private AnchorPane t_settings, t_home, t_convert, t_map;
     @FXML
@@ -78,7 +78,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private JFXProgressBar m_progressbar;
     @FXML
-    private JFXTextField m_progresstext;
+    private JFXTextField m_progresstext, m_completedtext;
     @FXML
     private WebView mc_map;
 
@@ -150,6 +150,15 @@ public class FXMLDocumentController implements Initializable
 
         ConvertText task = new ConvertText();
         new Thread(task).start();
+        
+        //Disable progressbar and display check mark when finished. 
+        task.setOnSucceeded(e -> 
+        {
+            m_progressbar.setDisable(true);
+            m_completedtext.setStyle("-fx-text-inner-color: white;");
+            m_completedtext.setVisible(true);
+            m_checkmark.setVisible(true);
+        });
     }
 
     class ConvertText extends Task<Void>
