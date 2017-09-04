@@ -159,6 +159,7 @@ public class FXMLDocumentController implements Initializable
             m_completedtext.setVisible(true);
             m_checkmark.setVisible(true);
         });
+
     }
 
     class ConvertText extends Task<Void>
