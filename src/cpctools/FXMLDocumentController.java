@@ -149,37 +149,16 @@ public class FXMLDocumentController implements Initializable
         m_progresstext.setStyle("-fx-text-inner-color: white;");
 
         ConvertText task = new ConvertText();
-
         new Thread(task).start();
-
-        /*
-        Platform.runLater(new Runnable()
-        {
-            @Override
-            public void run() 
-            {
-                try
-                {
-                    //Update your GUI here
-                startConvert();
-                } catch (IOException ex)
-                {
-                    System.out.print("Something went wrong. "+ex);
-                } catch (InvalidFormatException ex)
-                {
-                    System.out.print("Something went wrong. "+ex);
-                }
-            }
-        });
-         */
     }
 
-    class ConvertText extends Task<Integer>
+    class ConvertText extends Task<Void>
     {
+
         @Override
-        protected Integer call() throws Exception
+        protected Void call() throws Exception
         {
-            try (
+            try (   //Streams the file, so can't seek specific cells, but much faster than opening entire workbook. 
                     InputStream is = new FileInputStream(selectedFile);
                     Workbook workbook = StreamingReader.builder()
                             .rowCacheSize(100)
@@ -258,12 +237,21 @@ public class FXMLDocumentController implements Initializable
                             counter++;
                         }
                     }
-                    //m_progresstext.setText("Rows Processed: " + counter / 10);
+
+                    //Updates the text for how many rows converted. Needs to run in the runLater thing to work, otherwise you get bunch of errors for too many UI changes. 
+                    int countertext = counter;
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            m_progresstext.setText("Rows Processed: " + countertext/10);
+                        }
+                    });
                 }
                 tdfile.close();
             }
-            return 1;
-
+            return null;
         }
     }
 
