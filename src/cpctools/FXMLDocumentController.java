@@ -52,6 +52,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
+import javax.swing.JFileChooser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -72,9 +74,9 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private Rectangle m_current_pane;
     @FXML
-    private JFXButton btn_browse, btn_convertfile;
+    private JFXButton btn_browse, btn_convertfile, s_button_browse;
     @FXML
-    private Label l_filename;
+    private Label l_filename, s_output_path, s_sheetname;
     @FXML
     private JFXProgressBar m_progressbar;
     @FXML
@@ -128,7 +130,7 @@ public class FXMLDocumentController implements Initializable
         Window mainStage = source.getScene().getWindow();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("Open Excel File");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Excel Files", "*.xlsx"),
                 new ExtensionFilter("All Files", "*.*"));
@@ -140,6 +142,24 @@ public class FXMLDocumentController implements Initializable
             m_progresstext.setVisible(false);
             m_completedtext.setVisible(false);
             m_checkmark.setVisible(false);
+        }
+    }
+    
+    @FXML
+    private void selectOutput(MouseEvent event)
+    {
+        Node source = (Node) event.getSource();
+        Window mainStage = source.getScene().getWindow();
+
+        DirectoryChooser outputChooser = new DirectoryChooser();
+        outputChooser.setTitle("Select output folder. ");
+        File defaultDirectory = new File("C:/");
+        outputChooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = outputChooser.showDialog(mainStage);
+        
+        if (selectedDirectory != null)
+        {
+            s_output_path.setText(selectedDirectory.getPath());
         }
     }
 
