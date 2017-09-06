@@ -123,13 +123,13 @@
                </font>
             </JFXButton>
             <JFXProgressBar fx:id="m_progressbar" layoutX="99.0" layoutY="294.0" prefHeight="3.0" prefWidth="176.0" />
-            <JFXTextField fx:id="m_progresstext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="310.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
-            <ImageView fx:id="m_checkmark" fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <JFXTextField fx:id="m_progresstext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="315.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
+            <ImageView fx:id="m_checkmark" fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@images/checkmark.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="m_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="336.0" prefHeight="28.0" prefWidth="166.0" text="Conversion Completed. " unFocusColor="#3d4956" visible="false">
+            <JFXTextField fx:id="m_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="341.0" prefHeight="28.0" prefWidth="166.0" text="Conversion Completed. " unFocusColor="#3d4956" visible="false">
                <font>
                   <Font size="14.0" />
                </font>

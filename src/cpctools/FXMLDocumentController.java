@@ -87,6 +87,8 @@ public class FXMLDocumentController implements Initializable
 
     private WebEngine webengine;
     File selectedFile;
+    private String outputDirectory = "C:";
+    private String convertedFilename = "ConvertedFile";
 
     //Handles changing panes for the main menu. 
     @FXML
@@ -151,6 +153,7 @@ public class FXMLDocumentController implements Initializable
         if (selectedFile != null)
         {
             l_filename.setText(selectedFile.getName());
+            convertedFilename = selectedFile.getName();
             btn_convertfile.setDisable(false);
             m_progresstext.setVisible(false);
             m_completedtext.setVisible(false);
@@ -173,6 +176,7 @@ public class FXMLDocumentController implements Initializable
         if (selectedDirectory != null)
         {
             s_output_path.setText(selectedDirectory.getPath());
+            outputDirectory = selectedDirectory.getPath();
         }
     }
 
@@ -198,6 +202,7 @@ public class FXMLDocumentController implements Initializable
 
     }
 
+    //Remember to fix this so its not a bunch of if elses. use ? : and objects. 
     class ConvertText extends Task<Void>
     {
 
@@ -214,9 +219,12 @@ public class FXMLDocumentController implements Initializable
                 Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets() - 1);
 
                 //System.out.println("Row: " + sheet.getRow(1));
-                System.out.println(sheet.getSheetName());
+                //System.out.println(sheet.getSheetName());
 
-                PrintWriter tdfile = new PrintWriter(new FileWriter("output.txt"));
+                System.out.println(outputDirectory+"\\"+convertedFilename.replace(".xlsx","")+"-converted"+".txt");
+                outputDirectory = outputDirectory=="C:" ? convertedFilename.replace(".xlsx","")+"-converted"+".txt" : outputDirectory+"\\"+convertedFilename.replace(".xlsx","")+"-converted"+".txt";
+                PrintWriter tdfile = new PrintWriter(new FileWriter(outputDirectory));
+
 
                 LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
                 double latitude = latLon.getLatitude().degrees;
