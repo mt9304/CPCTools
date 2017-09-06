@@ -7,6 +7,7 @@ package cpctools;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,7 +77,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private JFXButton btn_browse, btn_convertfile, s_button_browse;
     @FXML
-    private Label l_filename, s_output_path, s_sheetname;
+    private Label m_about, l_filename, s_output_path, s_sheetname;
     @FXML
     private JFXProgressBar m_progressbar;
     @FXML
@@ -120,6 +121,18 @@ public class FXMLDocumentController implements Initializable
             t_home.setVisible(false);
             m_current_pane.setLayoutX(753);
         }
+    }
+    
+    @FXML
+    private void showAbout(MouseEvent event) 
+    {
+        m_about.setVisible(true);
+    }
+    
+    @FXML
+    private void hideAbout(MouseEvent event) 
+    {
+        m_about.setVisible(false);
     }
 
     @FXML
@@ -294,6 +307,7 @@ public class FXMLDocumentController implements Initializable
     {
         btn_convertfile.setDisable(true);
         m_progressbar.setDisable(true);
+        m_about.setStyle("-fx-text-inner-color: white;");
 
         this.webengine = this.mc_map.getEngine();
         this.webengine.load("https://www.google.ca/maps");
