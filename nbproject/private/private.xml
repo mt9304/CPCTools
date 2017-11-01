@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Projects/netbeans_projects/CPCTools/src/cpctools/CPCTools.java</file>
-            <file>file:/D:/Projects/netbeans_projects/CPCTools/src/cpctools/FXMLDocumentController.java</file>
-            <file>file:/D:/Projects/netbeans_projects/CPCTools/src/cpctools/FXMLDocument.fxml</file>
+            <file>file:/C:/Projects/JavaProjects/cpctools/src/cpctools/FXMLDocumentController.java</file>
+            <file>file:/C:/Projects/JavaProjects/cpctools/src/cpctools/CPCTools.java</file>
+            <file>file:/C:/Projects/JavaProjects/cpctools/src/cpctools/log4j.properties</file>
+            <file>file:/C:/Projects/JavaProjects/cpctools/nbproject/build-impl.xml</file>
         </group>
     </open-files>
 </project-private>
