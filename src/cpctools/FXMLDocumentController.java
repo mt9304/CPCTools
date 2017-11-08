@@ -330,34 +330,16 @@ public class FXMLDocumentController implements Initializable
     @FXML
     void csvDragDropped(DragEvent event)
     {
-        try
+        Dragboard board = event.getDragboard();
+        List<File> phil = board.getFiles();
+        bulkCSVFiles = phil;
+        StringBuilder builder = new StringBuilder();
+        String fileList = "";
+        for (int i = 0; i < phil.size(); i++)
         {
-            Dragboard board = event.getDragboard();
-            List<File> phil = board.getFiles();
-            FileInputStream fis;
-            bulkCSVFiles = phil;
-            StringBuilder builder = new StringBuilder();
-
-            for (int i = 0; i < phil.size(); i++)
-            {
-                fis = new FileInputStream(phil.get(i));
-                int ch;
-                while ((ch = fis.read()) != -1)
-                {
-                    builder.append((char) ch);
-                }
-                fis.close();
-            }
-            c_dragArea.setText(builder.toString());
-        } 
-        catch (FileNotFoundException fnfe)
-        {
-            fnfe.printStackTrace();
-        } 
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
+            fileList = fileList + phil.get(i).getName() + "\n";
         }
+        c_dragArea.setText(fileList);
     }
     
     @FXML
