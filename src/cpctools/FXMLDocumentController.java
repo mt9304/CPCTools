@@ -44,13 +44,19 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
@@ -69,26 +75,33 @@ public class FXMLDocumentController implements Initializable
 {
 
     @FXML
-    private ImageView btn_settings, btn_home, btn_convert, btn_map, m_checkmark;
+    private ImageView btn_settings, btn_home, btn_convert, btn_map, m_checkmark, c_checkmark;
     @FXML
     private AnchorPane t_settings, t_home, t_convert, t_map;
     @FXML
     private Rectangle m_current_pane;
     @FXML
-    private JFXButton btn_browse, btn_convertfile, s_button_browse;
+    private JFXButton btn_browse, btn_convertfile, s_button_browse, btn_convertCSV;
     @FXML
     private Label m_about, l_filename, s_output_path, s_sheetname;
     @FXML
-    private JFXProgressBar m_progressbar;
+    private JFXProgressBar m_progressbar, c_progressbar;
     @FXML
     private JFXTextField m_progresstext, m_completedtext;
+    //@FXML
+    //private WebView mc_map;
     @FXML
-    private WebView mc_map;
+    private JFXTextArea c_dragArea;
 
     private WebEngine webengine;
     File selectedFile;
     private String outputDirectory = "C:";
     private String convertedFilename = "ConvertedFile";
+
+    /**
+     * For handling bulk csv files. *
+     */
+    private List<File> bulkCSVFiles;
 
     //Handles changing panes for the main menu. 
     @FXML
@@ -124,15 +137,15 @@ public class FXMLDocumentController implements Initializable
             m_current_pane.setLayoutX(753);
         }
     }
-    
+
     @FXML
-    private void showAbout(MouseEvent event) 
+    private void showAbout(MouseEvent event)
     {
         m_about.setVisible(true);
     }
-    
+
     @FXML
-    private void hideAbout(MouseEvent event) 
+    private void hideAbout(MouseEvent event)
     {
         m_about.setVisible(false);
     }
@@ -160,7 +173,7 @@ public class FXMLDocumentController implements Initializable
             m_checkmark.setVisible(false);
         }
     }
-    
+
     @FXML
     private void selectOutput(MouseEvent event)
     {
@@ -172,7 +185,7 @@ public class FXMLDocumentController implements Initializable
         File defaultDirectory = new File("C:/");
         outputChooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = outputChooser.showDialog(mainStage);
-        
+
         if (selectedDirectory != null)
         {
             s_output_path.setText(selectedDirectory.getPath());
@@ -180,6 +193,9 @@ public class FXMLDocumentController implements Initializable
         }
     }
 
+    /**
+     * For converting single xlsx file. *
+     */
     @FXML
     private void convertFile(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
@@ -190,9 +206,10 @@ public class FXMLDocumentController implements Initializable
 
         ConvertText task = new ConvertText();
         new Thread(task).start();
-        
+
         //Disable progressbar and display check mark when finished. 
-        task.setOnSucceeded(e -> 
+        task.setOnSucceeded(e
+                ->
         {
             m_progressbar.setDisable(true);
             m_completedtext.setStyle("-fx-text-inner-color: white;");
@@ -209,7 +226,7 @@ public class FXMLDocumentController implements Initializable
         @Override
         protected Void call() throws Exception
         {
-            try (   //Streams the file, so can't seek specific cells, but much faster than opening entire workbook. 
+            try ( //Streams the file, so can't seek specific cells, but much faster than opening entire workbook. 
                     InputStream is = new FileInputStream(selectedFile);
                     Workbook workbook = StreamingReader.builder()
                             .rowCacheSize(100)
@@ -220,11 +237,9 @@ public class FXMLDocumentController implements Initializable
 
                 //System.out.println("Row: " + sheet.getRow(1));
                 //System.out.println(sheet.getSheetName());
-
-                System.out.println(outputDirectory+"\\"+convertedFilename.replace(".xlsx","")+"-converted"+".txt");
-                outputDirectory = outputDirectory=="C:" ? convertedFilename.replace(".xlsx","")+"-converted"+".txt" : outputDirectory+"\\"+convertedFilename.replace(".xlsx","")+"-converted"+".txt";
+                System.out.println(outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt");
+                outputDirectory = outputDirectory == "C:" ? convertedFilename.replace(".xlsx", "") + "-converted" + ".txt" : outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
                 PrintWriter tdfile = new PrintWriter(new FileWriter(outputDirectory));
-
 
                 LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
                 double latitude = latLon.getLatitude().degrees;
@@ -235,7 +250,7 @@ public class FXMLDocumentController implements Initializable
                 String lon = "";
                 for (Row r : sheet)
                 {
-                    for (int i = 0; i < 10; i++)    //Need to use iterators to get null values between columns. 
+                    for (int i = 0; i < 10; i++) //Need to use iterators to get null values between columns. 
                     {
                         Cell c = r.getCell(i);
                         if (c == null || "".equals(c.getStringCellValue()))
@@ -299,13 +314,108 @@ public class FXMLDocumentController implements Initializable
                         @Override
                         public void run()
                         {
-                            m_progresstext.setText("Rows Processed: " + countertext/10);
+                            m_progresstext.setText("Rows Processed: " + countertext / 10);
                         }
                     });
                 }
                 tdfile.close();
             }
             return null;
+        }
+    }
+
+    /**
+     * For batch converting csv files. *
+     */
+    @FXML
+    void csvDragDropped(DragEvent event)
+    {
+        try
+        {
+            Dragboard board = event.getDragboard();
+            List<File> phil = board.getFiles();
+            FileInputStream fis;
+            bulkCSVFiles = phil;
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < phil.size(); i++)
+            {
+                fis = new FileInputStream(phil.get(i));
+                int ch;
+                while ((ch = fis.read()) != -1)
+                {
+                    builder.append((char) ch);
+                }
+                fis.close();
+            }
+            c_dragArea.setText(builder.toString());
+        } 
+        catch (FileNotFoundException fnfe)
+        {
+            fnfe.printStackTrace();
+        } 
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+    
+    @FXML
+    void csvBulkConvert(DragEvent event)
+    {
+        try
+        {
+            FileInputStream convertfis;
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < bulkCSVFiles.size(); i++)
+            {
+                convertfis = new FileInputStream(bulkCSVFiles.get(i));
+                int ch;
+                while ((ch = convertfis.read()) != -1)
+                {
+                    builder.append((char) ch);
+                }
+                convertfis.close();
+            }
+            c_dragArea.setText(builder.toString());
+        } 
+        catch (FileNotFoundException fnfe)
+        {
+            fnfe.printStackTrace();
+        } 
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+    
+    @FXML
+    void csvDragEntered(DragEvent event)
+    {
+        System.out.println("Entered");
+        c_dragArea.setText("Drop");
+    }
+
+    @FXML
+    void csvDragOver(DragEvent event)
+    {
+        Dragboard board = event.getDragboard();
+        if (board.hasFiles())
+        {
+
+            List<File> phil = board.getFiles();
+            String path = phil
+                    .get(0)
+                    .toPath()
+                    .toString();
+
+            if (path.endsWith(".txt"))
+            {
+                event
+                        .acceptTransferModes(
+                                TransferMode.ANY);
+            }
         }
     }
 
@@ -317,8 +427,8 @@ public class FXMLDocumentController implements Initializable
         m_progressbar.setDisable(true);
         m_about.setStyle("-fx-text-inner-color: white;");
 
-        this.webengine = this.mc_map.getEngine();
-        this.webengine.load("https://www.google.ca/maps");
+        //this.webengine = this.mc_map.getEngine();
+        //this.webengine.load("https://www.google.ca/maps");
     }
 
 }
