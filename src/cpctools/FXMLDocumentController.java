@@ -43,8 +43,10 @@ import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
@@ -340,11 +342,13 @@ public class FXMLDocumentController implements Initializable
             fileList = fileList + phil.get(i).getName() + "\n";
         }
         c_dragArea.setText(fileList);
+        btn_convertCSV.setDisable(false);
     }
-    
+
     @FXML
-    void csvBulkConvert(DragEvent event)
+    void csvBulkConvert(MouseEvent event) throws FileNotFoundException, IOException
     {
+        /*
         try
         {
             FileInputStream convertfis;
@@ -370,13 +374,46 @@ public class FXMLDocumentController implements Initializable
         {
             ioe.printStackTrace();
         }
+         */
+
+        //String csvFile = "/Users/mkyong/csv/country.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        for (int i = 0; i < bulkCSVFiles.size(); i++)
+        {
+            try
+            {
+                br = new BufferedReader(new FileReader(bulkCSVFiles.get(i)));
+                while ((line = br.readLine()) != null)
+                {
+                    // use comma as separator
+                    String[] cell = line.split(cvsSplitBy);
+
+                    System.out.println("Country [code= " + cell[0] + " , name=" + cell[0] + "]");
+                }
+
+            } finally
+            {
+                if (br != null)
+                {
+                    try
+                    {
+                        br.close();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
-    
+
     @FXML
     void csvDragEntered(DragEvent event)
     {
-        System.out.println("Entered");
-        c_dragArea.setText("Drop");
+        //System.out.println("Entered");
+        //c_dragArea.setText("Drop");
     }
 
     @FXML
@@ -392,7 +429,7 @@ public class FXMLDocumentController implements Initializable
                     .toPath()
                     .toString();
 
-            if (path.endsWith(".txt"))
+            if (path.endsWith(".csv"))
             {
                 event
                         .acceptTransferModes(
