@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cpctools;
 
 import com.jfoenix.controls.JFXButton;
@@ -221,7 +216,7 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    //Remember to fix this so its not a bunch of if elses. use ? : and objects. 
+    //Remember to fix this and break it down to smaller functions.  
     class ConvertText extends Task<Void>
     {
 
@@ -348,38 +343,17 @@ public class FXMLDocumentController implements Initializable
     @FXML
     void csvBulkConvert(MouseEvent event) throws FileNotFoundException, IOException
     {
-        /*
-        try
-        {
-            FileInputStream convertfis;
-            StringBuilder builder = new StringBuilder();
-
-            for (int i = 0; i < bulkCSVFiles.size(); i++)
-            {
-                convertfis = new FileInputStream(bulkCSVFiles.get(i));
-                int ch;
-                while ((ch = convertfis.read()) != -1)
-                {
-                    builder.append((char) ch);
-                }
-                convertfis.close();
-            }
-            c_dragArea.setText(builder.toString());
-        } 
-        catch (FileNotFoundException fnfe)
-        {
-            fnfe.printStackTrace();
-        } 
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-         */
-
-        //String csvFile = "/Users/mkyong/csv/country.csv";
         BufferedReader br = null;
+        //StringBuilder csvLines = new StringBuilder();
+        //String cvsSplitBy = ",";
         String line = "";
-        String cvsSplitBy = ",";
+        String firstLine = "";
+        boolean isFirstLine = true;
+        
+        String combinedFilename = bulkCSVFiles.get(0).getName();
+        outputDirectory = outputDirectory == "C:" ? combinedFilename.replace(".xlsx", "") + "-combined" + ".csv" : outputDirectory + "\\" + combinedFilename.replace(".xlsx", "") + "-combined" + ".csv";
+        PrintWriter combinedFile = new PrintWriter(new FileWriter(outputDirectory));
+        
         for (int i = 0; i < bulkCSVFiles.size(); i++)
         {
             try
@@ -387,10 +361,22 @@ public class FXMLDocumentController implements Initializable
                 br = new BufferedReader(new FileReader(bulkCSVFiles.get(i)));
                 while ((line = br.readLine()) != null)
                 {
-                    // use comma as separator
-                    String[] cell = line.split(cvsSplitBy);
-
-                    System.out.println("Country [code= " + cell[0] + " , name=" + cell[0] + "]");
+                    if (isFirstLine)
+                    {
+                        firstLine = line;
+                        combinedFile.println(line);
+                    }
+                    
+                    else if (!line.equals(firstLine) && !line.equals(",,,,,,,,,,,,"))
+                    {
+                        combinedFile.println(line);
+                    }
+                    System.out.println(line);
+                    
+                    /** Use this later for correcting the expected csv bugs. **/
+                    //String[] cell = line.split(cvsSplitBy);
+                    //System.out.println("Country [code= " + cell[0] + " , name=" + cell[0] + "]");
+                    isFirstLine = false;
                 }
 
             } finally
@@ -407,6 +393,13 @@ public class FXMLDocumentController implements Initializable
                 }
             }
         }
+        combinedFile.close();
+    }
+    
+    @FXML
+    void combineCSV(MouseEvent event)
+    {
+        
     }
 
     @FXML

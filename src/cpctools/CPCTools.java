@@ -70,7 +70,7 @@ public class CPCTools extends Application
         double longitude = latLon.getLongitude().degrees;
         
         
-        System.out.println(latitude + " " + longitude);
+        //System.out.println(latitude + " " + longitude);
 
         /*
         LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
