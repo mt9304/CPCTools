@@ -81,8 +81,7 @@ public class FXMLDocumentController implements Initializable
     private JFXButton btn_browse, btn_convertfile, s_button_browse, btn_convertCSV;
     @FXML
     private Label m_about, l_filename, s_output_path, s_sheetname;
-    @FXML
-    private JFXProgressBar m_progressbar, c_progressbar;
+    //@FXML private JFXProgressBar m_progressbar;
     @FXML
     private JFXTextField m_progresstext, m_completedtext;
     //@FXML
@@ -197,7 +196,7 @@ public class FXMLDocumentController implements Initializable
     private void convertFile(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
         System.out.println("Converting file. ");
-        m_progressbar.setDisable(false);
+        //m_progressbar.setDisable(false);
         m_progresstext.setStyle("-fx-text-inner-color: white;");
         m_progresstext.setVisible(true);
 
@@ -208,7 +207,7 @@ public class FXMLDocumentController implements Initializable
         task.setOnSucceeded(e
                 ->
         {
-            m_progressbar.setDisable(true);
+            //m_progressbar.setDisable(true);
             m_completedtext.setStyle("-fx-text-inner-color: white;");
             m_completedtext.setVisible(true);
             m_checkmark.setVisible(true);
@@ -436,7 +435,7 @@ public class FXMLDocumentController implements Initializable
     )
     {
         btn_convertfile.setDisable(true);
-        m_progressbar.setDisable(true);
+        //m_progressbar.setDisable(true);
         m_about.setStyle("-fx-text-inner-color: white;");
 
         //this.webengine = this.mc_map.getEngine();
