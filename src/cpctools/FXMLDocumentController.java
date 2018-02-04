@@ -72,7 +72,7 @@ public class FXMLDocumentController implements Initializable
 {
 
     @FXML
-    private ImageView btn_settings, btn_home, btn_convert, btn_map, m_checkmark, c_checkmark;
+    private ImageView btn_settings, btn_home, btn_convert, btn_map, btn_exit, m_checkmark, c_checkmark;
     @FXML
     private AnchorPane t_settings, t_home, t_convert, t_map;
     @FXML
@@ -109,29 +109,35 @@ public class FXMLDocumentController implements Initializable
             t_home.setVisible(false);
             t_convert.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(1060);
+            m_current_pane.setLayoutX(385);
         } else if (event.getTarget() == btn_home)
         {
             t_home.setVisible(true);
             t_settings.setVisible(false);
             t_convert.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(113);
+            m_current_pane.setLayoutX(16);
         } else if (event.getTarget() == btn_convert)
         {
             t_convert.setVisible(true);
             t_settings.setVisible(false);
             t_home.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(431);
+            m_current_pane.setLayoutX(185);
         } else if (event.getTarget() == btn_map)
         {
             t_map.setVisible(true);
             t_convert.setVisible(false);
             t_settings.setVisible(false);
             t_home.setVisible(false);
-            m_current_pane.setLayoutX(753);
+            m_current_pane.setLayoutX(285);
         }
+    }
+    
+    @FXML
+    private void exit(MouseEvent event)
+    {
+           System.exit(0);
     }
 
     @FXML
