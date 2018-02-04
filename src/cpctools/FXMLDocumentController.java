@@ -83,7 +83,7 @@ public class FXMLDocumentController implements Initializable
     private Label m_about, l_filename, s_output_path, s_sheetname;
     //@FXML private JFXProgressBar m_progressbar;
     @FXML
-    private JFXTextField m_progresstext, m_completedtext;
+    private JFXTextField m_progresstext, m_completedtext, c_progresstext;
     //@FXML
     //private WebView mc_map;
     @FXML
@@ -218,7 +218,6 @@ public class FXMLDocumentController implements Initializable
             m_completedtext.setVisible(true);
             m_checkmark.setVisible(true);
         });
-
     }
 
     //Remember to fix this and break it down to smaller functions.  
@@ -344,6 +343,8 @@ public class FXMLDocumentController implements Initializable
         c_dragArea.setText(fileList);
         btn_convertCSV.setDisable(false);
     }
+    
+    
 
     @FXML
     void csvBulkConvert(MouseEvent event) throws FileNotFoundException, IOException
@@ -399,6 +400,8 @@ public class FXMLDocumentController implements Initializable
             }
         }
         combinedFile.close();
+        
+        
     }
     
     @FXML
@@ -441,6 +444,7 @@ public class FXMLDocumentController implements Initializable
     )
     {
         btn_convertfile.setDisable(true);
+        btn_convertCSV.setDisable(true);
         //m_progressbar.setDisable(true);
         m_about.setStyle("-fx-text-inner-color: white;");
 
