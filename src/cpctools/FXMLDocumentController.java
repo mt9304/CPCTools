@@ -83,7 +83,7 @@ public class FXMLDocumentController implements Initializable
     private Label m_about, l_filename, s_output_path, s_sheetname;
     //@FXML private JFXProgressBar m_progressbar;
     @FXML
-    private JFXTextField m_progresstext, m_completedtext, c_progresstext;
+    private JFXTextField m_progresstext, m_completedtext, c_completedtext;
     //@FXML
     //private WebView mc_map;
     @FXML
@@ -238,9 +238,11 @@ public class FXMLDocumentController implements Initializable
 
                 //System.out.println("Row: " + sheet.getRow(1));
                 //System.out.println(sheet.getSheetName());
-                System.out.println(outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt");
-                outputDirectory = outputDirectory == "C:" ? convertedFilename.replace(".xlsx", "") + "-converted" + ".txt" : outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
-                PrintWriter tdfile = new PrintWriter(new FileWriter(outputDirectory));
+                //System.out.println(outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt");
+                //outputDirectory = outputDirectory == "C:" ? convertedFilename.replace(".xlsx", "") + "-converted" + ".txt" : outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
+                String thisOutputDirectory = outputDirectory + "\\" +  convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
+                //System.out.println(outputDirectory);
+                PrintWriter tdfile = new PrintWriter(new FileWriter(thisOutputDirectory));
 
                 LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
                 double latitude = latLon.getLatitude().degrees;
@@ -347,7 +349,30 @@ public class FXMLDocumentController implements Initializable
     
 
     @FXML
-    void csvBulkConvert(MouseEvent event) throws FileNotFoundException, IOException
+    private void csvBulkConvert(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
+    {
+        System.out.println("Combining CSV files. ");
+        //m_progressbar.setDisable(false);
+        c_completedtext.setStyle("-fx-text-inner-color: white;");
+        c_completedtext.setText("Combining... ");
+        c_completedtext.setVisible(true);
+
+        CombineCSV task = new CombineCSV();
+        new Thread(task).start();
+
+        //Disable progressbar and display check mark when finished. 
+        task.setOnSucceeded(e
+                ->
+        {
+            c_completedtext.setText("Finished combining CSVs. ");
+            c_checkmark.setVisible(true);
+        });
+    }
+    
+class CombineCSV extends Task<Void>
+{ 
+    @Override
+    protected Void call() throws FileNotFoundException, IOException
     {
         BufferedReader br = null;
         //StringBuilder csvLines = new StringBuilder();
@@ -357,9 +382,9 @@ public class FXMLDocumentController implements Initializable
         boolean isFirstLine = true;
         
         String combinedFilename = bulkCSVFiles.get(0).getName();
-        outputDirectory = outputDirectory == "C:" ? combinedFilename.replace(".xlsx", "") + "-combined" + ".csv" : outputDirectory + "\\" + combinedFilename.replace(".xlsx", "") + "-combined" + ".csv";
-        PrintWriter combinedFile = new PrintWriter(new FileWriter(outputDirectory));
-        
+        String thisOutputDirectory = outputDirectory + "\\" + combinedFilename.replace(".xlsx", "") + "-combined" + ".csv";
+        PrintWriter combinedFile = new PrintWriter(new FileWriter(thisOutputDirectory));
+        System.out.println(outputDirectory);
         for (int i = 0; i < bulkCSVFiles.size(); i++)
         {
             try
@@ -377,7 +402,7 @@ public class FXMLDocumentController implements Initializable
                     {
                         combinedFile.println(line);
                     }
-                    System.out.println(line);
+                    //System.out.println(line);
                     
                     /** Use this later for correcting the expected csv bugs. **/
                     //String[] cell = line.split(cvsSplitBy);
@@ -400,15 +425,9 @@ public class FXMLDocumentController implements Initializable
             }
         }
         combinedFile.close();
-        
-        
+        return null;
     }
-    
-    @FXML
-    void combineCSV(MouseEvent event)
-    {
-        
-    }
+}
 
     @FXML
     void csvDragEntered(DragEvent event)

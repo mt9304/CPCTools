@@ -100,7 +100,7 @@
                   <Image url="@images/checkmark.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="c_progresstext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="116.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
+            <JFXTextField fx:id="c_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="116.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
          </children></AnchorPane>
       <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
