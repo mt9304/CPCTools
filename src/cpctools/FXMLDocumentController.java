@@ -258,7 +258,7 @@ public class FXMLDocumentController implements Initializable
                         Cell c = r.getCell(i);
                         if (c == null || "".equals(c.getStringCellValue()))
                         {
-                            System.out.print("N/A" + "\t");
+                            //System.out.print("N/A" + "\t");
                             tdfile.print("N/A" + "\t");
                             counter++;
                         } else
@@ -266,17 +266,17 @@ public class FXMLDocumentController implements Initializable
 
                             if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
                             {
-                                System.out.print(c.getStringCellValue() + "\t");
+                                //System.out.print(c.getStringCellValue() + "\t");
                                 tdfile.print(c.getStringCellValue() + "\t");
                             } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
                             {
                                 if ("0".equals(c.getStringCellValue()))
                                 {
-                                    System.out.print("0" + "\t");
+                                    //System.out.print("0" + "\t");
                                     tdfile.print("0" + "\t");
                                 } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
                                 {
-                                    System.out.print("X" + "\t");
+                                    //System.out.print("X" + "\t");
                                     tdfile.print("X" + "\t");
                                 } else
                                 {
@@ -286,11 +286,11 @@ public class FXMLDocumentController implements Initializable
                             {
                                 if ("0".equals(c.getStringCellValue()))
                                 {
-                                    System.out.println("0");
+                                    //System.out.println("0");
                                     tdfile.println("0");
                                 } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
                                 {
-                                    System.out.println("Y");
+                                    //System.out.println("Y");
                                     tdfile.println("Y");
                                 } else
                                 {
@@ -298,7 +298,7 @@ public class FXMLDocumentController implements Initializable
                                     latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
                                     latitude = latLon.getLatitude().degrees;
                                     longitude = latLon.getLongitude().degrees;
-                                    System.out.println(latitude + "\t" + longitude);
+                                    //System.out.println(latitude + "\t" + longitude);
                                     tdfile.println(latitude + "\t" + longitude);
                                 }
                             } else
@@ -352,7 +352,6 @@ public class FXMLDocumentController implements Initializable
     private void csvBulkConvert(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
         System.out.println("Combining CSV files. ");
-        //m_progressbar.setDisable(false);
         c_completedtext.setStyle("-fx-text-inner-color: white;");
         c_completedtext.setText("Combining... ");
         c_completedtext.setVisible(true);
@@ -375,8 +374,6 @@ class CombineCSV extends Task<Void>
     protected Void call() throws FileNotFoundException, IOException
     {
         BufferedReader br = null;
-        //StringBuilder csvLines = new StringBuilder();
-        //String cvsSplitBy = ",";
         String line = "";
         String firstLine = "";
         boolean isFirstLine = true;
@@ -398,11 +395,11 @@ class CombineCSV extends Task<Void>
                         combinedFile.println(line);
                     }
                     
+                    //Files received usually include this line for some reason. Cant get access to their code so will use this to check for it. 
                     else if (!line.equals(firstLine) && !line.equals(",,,,,,,,,,,,"))
                     {
                         combinedFile.println(line);
                     }
-                    //System.out.println(line);
                     
                     /** Use this later for correcting the expected csv bugs. **/
                     //String[] cell = line.split(cvsSplitBy);
@@ -464,11 +461,7 @@ class CombineCSV extends Task<Void>
     {
         btn_convertfile.setDisable(true);
         btn_convertCSV.setDisable(true);
-        //m_progressbar.setDisable(true);
         m_about.setStyle("-fx-text-inner-color: white;");
-
-        //this.webengine = this.mc_map.getEngine();
-        //this.webengine.load("https://www.google.ca/maps");
     }
 
 }
