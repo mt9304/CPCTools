@@ -43,7 +43,7 @@
             </ImageView>
             <ImageView fx:id="btn_exit" layoutX="562.0" layoutY="19.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/settings.png" />
+                  <Image url="@images/exit.png" />
                </image>
             </ImageView>
          </children>
@@ -83,7 +83,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
             <JFXTextArea fx:id="c_dragArea" layoutX="116.0" layoutY="31.0" onDragDropped="#csvDragDropped" onDragOver="#csvDragOver" onMouseDragEntered="#csvDragEntered" onMouseDragOver="#csvDragEntered" prefHeight="177.0" prefWidth="408.0" style="-fx-text-inner-color: white; -fx-border-color: white; -fx-padding: 15;" text="Drop .CSV Files Here">
                <font>
@@ -131,19 +131,19 @@
                </font>
             </JFXTextField>
          </children></AnchorPane>
-      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
+      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
          <children>
-            <Label layoutX="33.0" layoutY="35.0" text="Welcome" textFill="WHITE">
+            <Label layoutX="33.0" layoutY="35.0" text="How To Use: " textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font size="28.0" />
                </font>
             </Label>
-            <ImageView fx:id="m_about_icon" fitHeight="48.0" fitWidth="48.0" layoutX="215.0" layoutY="38.0" onMouseDragEntered="#showAbout" onMouseEntered="#showAbout" onMouseExited="#hideAbout" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="m_about_icon" fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="276.0" onMouseDragEntered="#showAbout" onMouseEntered="#showAbout" onMouseExited="#hideAbout" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/about.png" />
                </image>
             </ImageView>
-            <Label fx:id="m_about" alignment="TOP_LEFT" layoutX="284.0" layoutY="38.0" prefHeight="149.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.0" textFill="WHITE" visible="false">
+            <Label fx:id="m_about" alignment="TOP_LEFT" layoutX="70.0" layoutY="288.0" prefHeight="25.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.0" textFill="WHITE" visible="false">
                <font>
                   <Font size="24.0" />
                </font>
@@ -151,6 +151,26 @@
                   <Insets left="10.0" top="5.0" />
                </padding>
             </Label>
+            <JFXTextArea focusColor="#3d4956" layoutX="118.0" layoutY="90.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Download and browse to the Crime XLSX sheet from the Vancouver data website. Press Convert to convert the file's UTM values to Lat/Long and save it as a tabs delimited txt file. File is the Crime XLSX All Years one from here: http://data.vancouver.ca/datacatalogue/crime-data-details.htm" unFocusColor="#3d4956">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </JFXTextArea>
+            <ImageView layoutX="38.0" layoutY="90.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/excel.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="38.0" layoutY="203.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/csv.png" />
+               </image>
+            </ImageView>
+            <JFXTextArea focusColor="#3d4956" layoutX="115.0" layoutY="194.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Drag the csv files named &quot;Summary&quot; from the iPatrol email and press convert to combine them into one csv file. " unFocusColor="#3d4956">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </JFXTextArea>
          </children></AnchorPane>
    </children>
 </AnchorPane>
