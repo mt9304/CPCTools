@@ -3,7 +3,6 @@
 - [Introduction](#introduction)
 - [Converting UTM](#converting-utm-to-latitude-longitude)
 - [Combining CSV](#combining-csv-files)
-- [Video Demo](#video-demo)
 
 ## Introduction
 
@@ -17,12 +16,24 @@ Note: I have heard that sometimes the third party software responsible for email
 
 ## Converting UTM to Latitude Longitude
 
-Text
+1. Press on the Gear/Settings icon and select the output directory (where the file will be created). Some locations such as C:/ might not work due to permission issues, so you can try something like the Desktop or somewhere in My Documents. 
+
+2. Click Browse and select the XLSX file downloaded from [here]((http://data.vancouver.ca/datacatalogue/crime-data-details.htm). It should be named something like "crime_xlsx_all_years.xlsx." 
+
+3. Click on the Convert button to start converting the file's coordinates from UTM to Latitude/Longitude and into a TXT file. Wait for the checkmark to appear to indicate completion. 
+
+4. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 
+
+Please note that this function only uses the worksheet on the very right (should be named the current year). This is so that it takes the most recent worksheet for the current year. To run this for older years, you can just move the sheets that you want to use the right most tab in Excel. 
 
 ## Combining CSV files
 
-Text
+1. Press on the Gear/Settings icon and select the output directory (where the file will be created). Some locations such as C:/ might not work due to permission issues, so you can try something like the Desktop or somewhere in My Documents. 
 
-## Video Demonstration
+2. Go back to the CSV menu. 
 
-Text
+3. Drag and drop all of the CSV files that you want combined into the box that says "Drop .CSV Files Here." 
+
+4. Click on the Combine button to combine the CSV files and wait for the Check mark to appear to indicate completion. 
+
+5. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 

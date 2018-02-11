@@ -379,7 +379,7 @@ class CombineCSV extends Task<Void>
         boolean isFirstLine = true;
         
         String combinedFilename = bulkCSVFiles.get(0).getName();
-        String thisOutputDirectory = outputDirectory + "\\" + combinedFilename.replace(".xlsx", "") + "-combined" + ".csv";
+        String thisOutputDirectory = outputDirectory + "\\" + combinedFilename.replace(".csv", "") + "-combined" + ".csv";
         PrintWriter combinedFile = new PrintWriter(new FileWriter(thisOutputDirectory));
         System.out.println(outputDirectory);
         for (int i = 0; i < bulkCSVFiles.size(); i++)
