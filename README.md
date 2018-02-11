@@ -2,7 +2,9 @@
 
 - [Introduction](#introduction)
 - [Converting UTM](#converting-utm-to-latitude-longitude)
+	- [Video Demonstration](#conversion-video-demo)
 - [Combining CSV](#combining-csv-files)
+	- [Video Demonstration](combining-video-demo)
 
 ## Introduction
 
@@ -26,6 +28,9 @@ Note: I have heard that sometimes the third party software responsible for email
 
 Please note that this function only uses the worksheet on the very right (should be named the current year). This is so that it takes the most recent worksheet for the current year. To run this for older years, you can just move the sheets that you want to use the right most tab in Excel. 
 
+### Conversion Video Demo
+
+
 ## Combining CSV files
 
 1. Press on the Gear/Settings icon and select the output directory (where the file will be created). Some locations such as C:/ might not work due to permission issues, so you can try something like the Desktop or somewhere in My Documents. 
@@ -37,3 +42,5 @@ Please note that this function only uses the worksheet on the very right (should
 4. Click on the Combine button to combine the CSV files and wait for the Check mark to appear to indicate completion. 
 
 5. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 
+
+### Combining Video Demo
