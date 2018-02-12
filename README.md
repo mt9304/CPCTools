@@ -10,11 +10,11 @@
 
 This program was created to assist with 2 of the routine procedures needed for the mapping project. 
 
-The first procedure is for converting the crime data found [here](http://data.vancouver.ca/datacatalogue/crime-data-details.htm). For this routine, we would download the Crime (XLSX) file. This XLSX file contains the needed data for all years, but uses UTM coordinates for the events. We need to convert this data into a tab delimited TXT file with Latitude and Longitude coordinates before we can use it for our mapping software. This program automates the process of converting the coordinates and changing the file format. Coordinate conversion functions used for this program were based on [this](https://github.com/Berico-Technologies/Geo-Coordinate-Conversion-Java). 
+The first procedure is for converting the crime data found [here](http://data.vancouver.ca/datacatalogue/crime-data-details.htm). For this routine, we would download the Crime (XLSX) file. This XLSX file contains the needed data for all years, but uses UTM coordinates for the events. We need to convert this data into a tab delimited TXT file with Latitude and Longitude coordinates before we can use it for our mapping software. This program automates the process of converting the coordinates and changing the file format. Coordinate conversion formulas used for this program were based on [this](https://github.com/Berico-Technologies/Geo-Coordinate-Conversion-Java). 
 
-The second procedure was to combine weekly patrol reports emailed in CSV format into monthly reports. This program lets you drag and drop all the CSV files needing to be combined and combines them into one file automatically. 
+The second procedure was to combine weekly patrol reports emailed in CSV format into monthly reports. This program lets you drag and drop all the CSV files needing to be combined and combines them into one file automatically (only uses the header row for the first file). 
 
-Note: I have heard that sometimes the third party software responsible for emailing the CSV files might generate some invalid data in cetain columns, and we hav ebeen manually correcting them. Please feel free to let me know of those issues with details on where the values are and where they are supposed to be, etc, and I can add a function to automatically correct them as well. 
+Note: I have heard that sometimes the third party software responsible for emailing the CSV files might generate some invalid data in cetain columns, and we have been manually correcting them. Please feel free to let me know of those issues with details on where the values are and where they are supposed to be and I can add a function to automatically correct them as well. 
 
 ## Converting UTM to Latitude Longitude
 
@@ -26,7 +26,7 @@ Note: I have heard that sometimes the third party software responsible for email
 
 3. Click on the Convert button to start converting the file's coordinates from UTM to Latitude/Longitude and into a TXT file. Wait for the checkmark to appear to indicate completion. 
 
-4. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 
+4. The file should be in the output directory with the name of the first file + combined at the end, in CSV format. If it is not there, try a different output directory. 
 
 Please note that this function only uses the worksheet on the very right (should be named the current year). This is so that it takes the most recent worksheet for the current year. To run this for older years, you can just move the sheets that you want to use the right most tab in Excel. 
 
@@ -46,7 +46,7 @@ Please note that this function only uses the worksheet on the very right (should
 
 4. Click on the Combine button to combine the CSV files and wait for the Check mark to appear to indicate completion. 
 
-5. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 
+5. The file should be in the output directory with the name of the first file + combined at the end, in CSV format. If it is not there, try a different output directory. 
 
 ### Combining Video Demo
 
