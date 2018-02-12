@@ -32,6 +32,7 @@ Please note that this function only uses the worksheet on the very right (should
 
 ### Conversion Video Demo
 
+![Converting XLSX](https://github.com/mt9304/CPCTools/blob/master/other/convert.gif)
 
 ## Combining CSV files
 
@@ -48,3 +49,5 @@ Please note that this function only uses the worksheet on the very right (should
 5. The file should be in the output directory with the name of the first file + Combined at the end, in CSV format. If it is not there, try a different output directory. 
 
 ### Combining Video Demo
+
+![Combining CSV](https://github.com/mt9304/CPCTools/blob/master/other/combine.gif)
