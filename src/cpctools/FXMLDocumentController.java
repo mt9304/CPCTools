@@ -99,7 +99,7 @@ public class FXMLDocumentController implements Initializable
 
     private WebEngine webengine;
     File selectedFile;
-    private String outputDirectory = "C:";
+    private String outputDirectory = "C:/Users/ipatr/Desktop";
     private String convertedFilename = "ConvertedFile";
 
     /**
@@ -192,7 +192,7 @@ public class FXMLDocumentController implements Initializable
 
         DirectoryChooser outputChooser = new DirectoryChooser();
         outputChooser.setTitle("Select output folder. ");
-        File defaultDirectory = new File("C:/");
+        File defaultDirectory = new File("C:/Users/ipatr/Desktop");
         outputChooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = outputChooser.showDialog(mainStage);
 
