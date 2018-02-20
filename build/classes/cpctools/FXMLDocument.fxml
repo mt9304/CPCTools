@@ -72,7 +72,7 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <Label fx:id="s_output_path" layoutX="56.0" layoutY="139.0" prefHeight="35.0" prefWidth="292.0" text="C:\" textFill="WHITE">
+            <Label fx:id="s_output_path" layoutX="56.0" layoutY="139.0" prefHeight="35.0" prefWidth="292.0" text="C:\Users\ipatr\Desktop" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
