@@ -144,7 +144,7 @@
                   <Image url="@images/about.png" />
                </image>
             </ImageView>
-            <Label fx:id="m_about" alignment="TOP_LEFT" layoutX="70.0" layoutY="288.0" prefHeight="25.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.0" textFill="WHITE" visible="false">
+            <Label fx:id="m_about" alignment="TOP_LEFT" layoutX="70.0" layoutY="288.0" prefHeight="25.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.2" textFill="WHITE" visible="false">
                <font>
                   <Font size="24.0" />
                </font>
