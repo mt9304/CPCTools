@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -166,6 +167,9 @@
                   <Image url="@images/csv.png" />
                </image>
             </ImageView>
+            <Label layoutX="295.0" layoutY="300.0" text="Full instructions here: " textFill="WHITE" />
+            <Hyperlink fx:id="h_hyperlink" layoutX="411.0" layoutY="297.0" onAction="#visitHyperlink" prefHeight="23.0" prefWidth="211.0" text="https://github.com/mt9304/cpctools" />
+            <Separator layoutX="23.0" layoutY="193.0" prefHeight="3.0" prefWidth="604.0" />
             <JFXTextArea focusColor="#3d4956" layoutX="115.0" layoutY="194.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Drag the csv files named &quot;Summary&quot; from the iPatrol email and press convert to combine them into one csv file. " unFocusColor="#3d4956">
                <font>
                   <Font size="20.0" />

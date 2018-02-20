@@ -38,18 +38,23 @@ import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseDragEvent;
@@ -84,6 +89,9 @@ public class FXMLDocumentController implements Initializable
     //@FXML private JFXProgressBar m_progressbar;
     @FXML
     private JFXTextField m_progresstext, m_completedtext, c_completedtext;
+    
+    @FXML
+    private Hyperlink h_hyperlink;
     //@FXML
     //private WebView mc_map;
     @FXML
@@ -454,10 +462,15 @@ class CombineCSV extends Task<Void>
             }
         }
     }
+    
+    @FXML
+    public void visitHyperlink(ActionEvent event) throws URISyntaxException, IOException
+    {
+        Desktop.getDesktop().browse(new URI("https://github.com/mt9304/cpctools"));
+    }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb
-    )
+    public void initialize(URL url, ResourceBundle rb)
     {
         btn_convertfile.setDisable(true);
         btn_convertCSV.setDisable(true);
