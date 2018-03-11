@@ -1,5 +1,4 @@
 package cpctools;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -20,7 +19,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
-
 import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
@@ -41,7 +39,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.web.WebEngine;
 import javafx.stage.DirectoryChooser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -49,34 +46,25 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-/**
- *
- * @author Max
- */
 public class FXMLDocumentController implements Initializable
 {
-
     @FXML
-    private ImageView btn_settings, btn_home, btn_xslx, btn_csv, btn_exit, m_checkmark, c_checkmark;
+    private ImageView btn_settings, btn_home, btn_xslx, btn_csv, btn_exit, xlsx_checkmark, csv_checkmark;
     @FXML
-    private AnchorPane t_settings, t_home, t_convert, t_map;
+    private AnchorPane t_settings, t_home, t_xslx, t_csv; //Tab panes. 
     @FXML
     private Rectangle current_tab_indicator;
     @FXML
-    private JFXButton xlsx_browse_btn, xlsx_convert_btn, s_button_browse, btn_convertCSV;
+    private JFXButton xlsx_browse_btn, xlsx_convert_btn, settings_browse_btn, csv_convert_btn;
     @FXML
-    private Label home_about_details, l_filename, s_output_path, s_sheetname;
-
+    private Label home_about_details, xlsx_filename, settings_output_path, settings_sheetname;
     @FXML
-    private JFXTextField m_progresstext, m_completedtext, c_completedtext;
-    
+    private JFXTextField xlsx_progress_text, xlsx_completed_text, csv_completed_text;
     @FXML
     private Hyperlink home_hyperlink;
-
     @FXML
-    private JFXTextArea c_dragArea;
-
-    private WebEngine webengine;
+    private JFXTextArea csv_drag_area;
+    
     File selectedFile;
     private String outputDirectory = "C:";
     private String convertedFilename = "ConvertedFile";
@@ -94,27 +82,27 @@ public class FXMLDocumentController implements Initializable
         {
             t_settings.setVisible(true);
             t_home.setVisible(false);
-            t_convert.setVisible(false);
-            t_map.setVisible(false);
+            t_xslx.setVisible(false);
+            t_csv.setVisible(false);
             current_tab_indicator.setLayoutX(385);
         } else if (event.getTarget() == btn_home)
         {
             t_home.setVisible(true);
             t_settings.setVisible(false);
-            t_convert.setVisible(false);
-            t_map.setVisible(false);
+            t_xslx.setVisible(false);
+            t_csv.setVisible(false);
             current_tab_indicator.setLayoutX(16);
         } else if (event.getTarget() == btn_xslx)
         {
-            t_convert.setVisible(true);
+            t_xslx.setVisible(true);
             t_settings.setVisible(false);
             t_home.setVisible(false);
-            t_map.setVisible(false);
+            t_csv.setVisible(false);
             current_tab_indicator.setLayoutX(185);
         } else if (event.getTarget() == btn_csv)
         {
-            t_map.setVisible(true);
-            t_convert.setVisible(false);
+            t_csv.setVisible(true);
+            t_xslx.setVisible(false);
             t_settings.setVisible(false);
             t_home.setVisible(false);
             current_tab_indicator.setLayoutX(285);
@@ -154,12 +142,12 @@ public class FXMLDocumentController implements Initializable
         selectedFile = fileChooser.showOpenDialog(mainStage);
         if (selectedFile != null)
         {
-            l_filename.setText(selectedFile.getName());
+            xlsx_filename.setText(selectedFile.getName());
             convertedFilename = selectedFile.getName();
             xlsx_convert_btn.setDisable(false);
-            m_progresstext.setVisible(false);
-            m_completedtext.setVisible(false);
-            m_checkmark.setVisible(false);
+            xlsx_progress_text.setVisible(false);
+            xlsx_completed_text.setVisible(false);
+            xlsx_checkmark.setVisible(false);
         }
     }
 
@@ -177,7 +165,7 @@ public class FXMLDocumentController implements Initializable
 
         if (selectedDirectory != null)
         {
-            s_output_path.setText(selectedDirectory.getPath());
+            settings_output_path.setText(selectedDirectory.getPath());
             outputDirectory = selectedDirectory.getPath();
         }
     }
@@ -190,8 +178,8 @@ public class FXMLDocumentController implements Initializable
     {
         System.out.println("Converting file. ");
         //m_progressbar.setDisable(false);
-        m_progresstext.setStyle("-fx-text-inner-color: white;");
-        m_progresstext.setVisible(true);
+        xlsx_progress_text.setStyle("-fx-text-inner-color: white;");
+        xlsx_progress_text.setVisible(true);
 
         ConvertXslxFile task = new ConvertXslxFile();
         new Thread(task).start();
@@ -201,9 +189,9 @@ public class FXMLDocumentController implements Initializable
                 ->
         {
             //m_progressbar.setDisable(true);
-            m_completedtext.setStyle("-fx-text-inner-color: white;");
-            m_completedtext.setVisible(true);
-            m_checkmark.setVisible(true);
+            xlsx_completed_text.setStyle("-fx-text-inner-color: white;");
+            xlsx_completed_text.setVisible(true);
+            xlsx_checkmark.setVisible(true);
         });
     }
 
@@ -213,7 +201,7 @@ public class FXMLDocumentController implements Initializable
         @Override
         protected Void call() throws Exception
         {
-            try ( //Streams the file, so can't seek specific cells, but much faster than opening entire workbook. 
+            try ( //Streams the file, so can't seek specific cells, but much faster than opening entire workbook. Workbook has hundreds of thousands of lines. 
                     InputStream is = new FileInputStream(selectedFile);
                     Workbook workbook = StreamingReader.builder()
                             .rowCacheSize(100)
@@ -233,52 +221,62 @@ public class FXMLDocumentController implements Initializable
                 String lon = "";
                 for (Row r : sheet)
                 {
-                    for (int i = 0; i < 10; i++) //Need to use iterators to get null values between columns. 
+                    for (int i = 0; i < 10; i++) //Need to use iterators to get null values between columns due to library limitations. 
                     {
                         Cell c = r.getCell(i);
                         if (c == null || "".equals(c.getStringCellValue()))
                         {
                             tdfile.print("N/A" + "\t");
                             counter++;
-                        } else
+                        } 
+                        
+                        else //
                         {
-                            if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
+                            if (counter % 10 < 8) //If not lat long, then just print value plus tab.  columns less than 8 are not coordinates. 
                             {
                                 tdfile.print(c.getStringCellValue() + "\t");
-                            } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                            } 
+                            
+                            else if (counter % 10 == 8) //If last digit is 8 or 9, then it is at columns for coordinates. Convert these.  
                             {
-                                if ("0".equals(c.getStringCellValue()))
+                                if ("0".equals(c.getStringCellValue())) //Sometimes value will be 0 to protect privacy. Can't use function to convert 0, it will  error. 
                                 {
                                     tdfile.print("0" + "\t");
-                                } else if ("X".equals(c.getStringCellValue())) //For the header row only to avoid error. 
+                                } 
+                                else if ("X".equals(c.getStringCellValue())) //For catching the header values otherwise it will error when converted. 
                                 {
                                     tdfile.print("X" + "\t");
-                                } else
+                                } 
+                                else //Anything else and it should be a valid coordinate value here for convertsion. 
                                 {
                                     lat = c.getStringCellValue();
                                 }
-                            } else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
+                            } 
+                            
+                            else if (counter % 10 == 9) //If last digit is 8 or 9, then it is lat and long, then convert. 
                             {
                                 if ("0".equals(c.getStringCellValue()))
                                 {
                                     tdfile.println("0");
-                                } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
+                                } 
+                                else if ("Y".equals(c.getStringCellValue())) //For catching the header values otherwise it will throw error when converted. 
                                 {
                                     tdfile.println("Y");
-                                } else
+                                } 
+                                else //Anything else and it should be a valid coordinate value here for convertsion. 
                                 {
                                     lon = c.getStringCellValue(); //Getting lat from instance variable. Need to enter both values for conversion function, but can't seek previous value in stream. 
                                     latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, Double.parseDouble(lat), Double.parseDouble(lon));
                                     latitude = latLon.getLatitude().degrees;
                                     longitude = latLon.getLongitude().degrees;
-                                    //System.out.println(latitude + "\t" + longitude);
                                     tdfile.println(latitude + "\t" + longitude);
                                 }
-                            } else
+                            } 
+                            
+                            else
                             {
-                                System.out.println("Something went wrong. ");
+                                System.out.println("Invalid value found. Counter: "+ counter + "Value: " + c.getStringCellValue());
                             }
-
                             counter++;
                         }
                     }
@@ -290,7 +288,7 @@ public class FXMLDocumentController implements Initializable
                         @Override
                         public void run()
                         {
-                            m_progresstext.setText("Rows Processed: " + countertext / 10);
+                            xlsx_progress_text.setText("Rows Processed: " + countertext / 10);
                         }
                     });
                 }
@@ -315,8 +313,8 @@ public class FXMLDocumentController implements Initializable
         {
             fileList = fileList + phil.get(i).getName() + "\n";
         }
-        c_dragArea.setText(fileList);
-        btn_convertCSV.setDisable(false);
+        csv_drag_area.setText(fileList);
+        csv_convert_btn.setDisable(false);
     }
     
     
@@ -325,9 +323,9 @@ public class FXMLDocumentController implements Initializable
     private void csvBulkConvert(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
         System.out.println("Combining CSV files. ");
-        c_completedtext.setStyle("-fx-text-inner-color: white;");
-        c_completedtext.setText("Combining... ");
-        c_completedtext.setVisible(true);
+        csv_completed_text.setStyle("-fx-text-inner-color: white;");
+        csv_completed_text.setText("Combining... ");
+        csv_completed_text.setVisible(true);
 
         CombineCSV task = new CombineCSV();
         new Thread(task).start();
@@ -336,8 +334,8 @@ public class FXMLDocumentController implements Initializable
         task.setOnSucceeded(e
                 ->
         {
-            c_completedtext.setText("Finished combining CSVs. ");
-            c_checkmark.setVisible(true);
+            csv_completed_text.setText("Finished combining CSVs. ");
+            csv_checkmark.setVisible(true);
         });
     }
     
@@ -438,7 +436,7 @@ class CombineCSV extends Task<Void>
     public void initialize(URL url, ResourceBundle rb)
     {
         xlsx_convert_btn.setDisable(true);
-        btn_convertCSV.setDisable(true);
+        csv_convert_btn.setDisable(true);
         home_about_details.setStyle("-fx-text-inner-color: white;");
     }
 

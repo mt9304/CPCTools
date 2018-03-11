@@ -67,50 +67,50 @@
                </font>
             </Label>
             <Separator layoutX="47.0" layoutY="261.0" prefHeight="0.0" prefWidth="320.0" />
-            <JFXButton fx:id="s_btn_browse" layoutX="56.0" layoutY="58.0" onMousePressed="#selectOutput" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse">
+            <JFXButton fx:id="settings_browse_btn" layoutX="56.0" layoutY="58.0" onMousePressed="#selectOutput" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <Label fx:id="s_output_path" layoutX="56.0" layoutY="139.0" prefHeight="35.0" prefWidth="292.0" text="C:\" textFill="WHITE">
+            <Label fx:id="settings_output_path" layoutX="56.0" layoutY="139.0" prefHeight="35.0" prefWidth="292.0" text="C:\" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="s_sheetname" layoutX="52.0" layoutY="215.0" prefHeight="35.0" prefWidth="211.0" text=" " textFill="WHITE">
+            <Label fx:id="settings_sheetname" layoutX="52.0" layoutY="215.0" prefHeight="35.0" prefWidth="211.0" text=" " textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="t_map" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
+      <AnchorPane fx:id="t_csv" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
-            <JFXTextArea fx:id="c_dragArea" layoutX="116.0" layoutY="31.0" onDragDropped="#csvDragDropped" onDragOver="#csvDragOver" onMouseDragEntered="#csvDragEntered" onMouseDragOver="#csvDragEntered" prefHeight="177.0" prefWidth="408.0" style="-fx-text-inner-color: white; -fx-border-color: white; -fx-padding: 15;" text="Drop .CSV Files Here">
+            <JFXTextArea fx:id="csv_drag_area" editable="false" layoutX="116.0" layoutY="31.0" onDragDropped="#csvDragDropped" onDragOver="#csvDragOver" onMouseDragEntered="#csvDragEntered" onMouseDragOver="#csvDragEntered" prefHeight="177.0" prefWidth="408.0" style="-fx-text-inner-color: white; -fx-border-color: white; -fx-padding: 15;" text="Drop .CSV Files Here">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextArea>
-            <JFXButton fx:id="btn_convertCSV" disable="true" layoutX="116.0" layoutY="250.0" onMousePressed="#csvBulkConvert" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: white;" text="Convert">
+            <JFXButton fx:id="csv_convert_btn" disable="true" layoutX="116.0" layoutY="250.0" onMousePressed="#csvBulkConvert" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: white;" text="Convert">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <ImageView fx:id="c_checkmark" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="csv_checkmark" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@images/checkmark.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="c_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="116.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
+            <JFXTextField fx:id="csv_completed_text" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="116.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
          </children></AnchorPane>
-      <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="t_xslx" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
             <JFXButton layoutX="99.0" layoutY="75.0" onMousePressed="#xlsxBrowseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse" fx:id="xlsx_browse_btn">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <Label fx:id="l_filename" layoutX="99.0" layoutY="128.0" prefHeight="27.0" prefWidth="132.0" textFill="WHITE">
+            <Label layoutX="99.0" layoutY="128.0" prefHeight="27.0" prefWidth="132.0" textFill="WHITE" fx:id="xlsx_filename">
                <font>
                   <Font size="18.0" />
                </font>
@@ -120,19 +120,19 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXTextField fx:id="m_progresstext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="248.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
-            <ImageView fx:id="m_checkmark" fitHeight="25.0" fitWidth="25.0" layoutX="299.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <JFXTextField alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="248.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" fx:id="xlsx_progress_text" />
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="299.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="xlsx_checkmark">
                <image>
                   <Image url="@images/checkmark.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="m_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="291.0" prefHeight="28.0" prefWidth="166.0" text="Conversion Completed. " unFocusColor="#3d4956" visible="false">
+            <JFXTextField alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="99.0" layoutY="291.0" prefHeight="28.0" prefWidth="166.0" text="Conversion Completed. " unFocusColor="#3d4956" visible="false" fx:id="xlsx_completed_text">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXTextField>
          </children></AnchorPane>
-      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
+      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
          <children>
             <Label layoutX="33.0" layoutY="35.0" text="How To Use: " textFill="WHITE">
                <font>
