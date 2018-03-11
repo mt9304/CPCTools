@@ -34,6 +34,7 @@ public class CPCTools extends Application
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         stage.initStyle(StageStyle.TRANSPARENT);
 
+        //Makes window moveable when dragged by mouse. 
         root.setOnMousePressed(new EventHandler<MouseEvent>()
         {
             @Override
@@ -64,21 +65,6 @@ public class CPCTools extends Application
      */
     public static void main(String[] args)
     {
-
-        LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
-        double latitude = latLon.getLatitude().degrees;
-        double longitude = latLon.getLongitude().degrees;
-        
-        
-        //System.out.println(latitude + " " + longitude);
-
-        /*
-        LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
-        double latitude = latLon.getLatitude().degrees;
-        double longitude = latLon.getLongitude().degrees;
-        System.out.println(latitude + " " + longitude);
-        */
-
         launch(args);
     }
 

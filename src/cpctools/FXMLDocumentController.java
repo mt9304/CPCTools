@@ -1,7 +1,6 @@
 package cpctools;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
@@ -22,25 +21,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
-/*
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
- */
 import com.monitorjbl.xlsx.StreamingReader;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.coords.UTMCoord;
 import java.awt.Desktop;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -48,21 +34,15 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
-import javax.swing.JFileChooser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -77,23 +57,22 @@ public class FXMLDocumentController implements Initializable
 {
 
     @FXML
-    private ImageView btn_settings, btn_home, btn_convert, btn_map, btn_exit, m_checkmark, c_checkmark;
+    private ImageView btn_settings, btn_home, btn_xslx, btn_csv, btn_exit, m_checkmark, c_checkmark;
     @FXML
     private AnchorPane t_settings, t_home, t_convert, t_map;
     @FXML
-    private Rectangle m_current_pane;
+    private Rectangle current_tab_indicator;
     @FXML
-    private JFXButton btn_browse, btn_convertfile, s_button_browse, btn_convertCSV;
+    private JFXButton xlsx_browse_btn, xlsx_convert_btn, s_button_browse, btn_convertCSV;
     @FXML
-    private Label m_about, l_filename, s_output_path, s_sheetname;
-    //@FXML private JFXProgressBar m_progressbar;
+    private Label home_about_details, l_filename, s_output_path, s_sheetname;
+
     @FXML
     private JFXTextField m_progresstext, m_completedtext, c_completedtext;
     
     @FXML
-    private Hyperlink h_hyperlink;
-    //@FXML
-    //private WebView mc_map;
+    private Hyperlink home_hyperlink;
+
     @FXML
     private JFXTextArea c_dragArea;
 
@@ -109,7 +88,7 @@ public class FXMLDocumentController implements Initializable
 
     //Handles changing panes for the main menu. 
     @FXML
-    private void handleButtonAction(MouseEvent event)
+    private void switchTabs(MouseEvent event)
     {
         if (event.getTarget() == btn_settings)
         {
@@ -117,28 +96,28 @@ public class FXMLDocumentController implements Initializable
             t_home.setVisible(false);
             t_convert.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(385);
+            current_tab_indicator.setLayoutX(385);
         } else if (event.getTarget() == btn_home)
         {
             t_home.setVisible(true);
             t_settings.setVisible(false);
             t_convert.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(16);
-        } else if (event.getTarget() == btn_convert)
+            current_tab_indicator.setLayoutX(16);
+        } else if (event.getTarget() == btn_xslx)
         {
             t_convert.setVisible(true);
             t_settings.setVisible(false);
             t_home.setVisible(false);
             t_map.setVisible(false);
-            m_current_pane.setLayoutX(185);
-        } else if (event.getTarget() == btn_map)
+            current_tab_indicator.setLayoutX(185);
+        } else if (event.getTarget() == btn_csv)
         {
             t_map.setVisible(true);
             t_convert.setVisible(false);
             t_settings.setVisible(false);
             t_home.setVisible(false);
-            m_current_pane.setLayoutX(285);
+            current_tab_indicator.setLayoutX(285);
         }
     }
     
@@ -151,17 +130,17 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void showAbout(MouseEvent event)
     {
-        m_about.setVisible(true);
+        home_about_details.setVisible(true);
     }
 
     @FXML
     private void hideAbout(MouseEvent event)
     {
-        m_about.setVisible(false);
+        home_about_details.setVisible(false);
     }
 
     @FXML
-    private void browseFile(MouseEvent event)
+    private void xlsxBrowseFile(MouseEvent event)
     {
         System.out.println("Pressed Browse. ");
         Node source = (Node) event.getSource();
@@ -177,7 +156,7 @@ public class FXMLDocumentController implements Initializable
         {
             l_filename.setText(selectedFile.getName());
             convertedFilename = selectedFile.getName();
-            btn_convertfile.setDisable(false);
+            xlsx_convert_btn.setDisable(false);
             m_progresstext.setVisible(false);
             m_completedtext.setVisible(false);
             m_checkmark.setVisible(false);
@@ -207,14 +186,14 @@ public class FXMLDocumentController implements Initializable
      * For converting single xlsx file. *
      */
     @FXML
-    private void convertFile(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
+    private void xlsxConvertFile(MouseEvent event) throws IOException, InvalidFormatException, InterruptedException
     {
         System.out.println("Converting file. ");
         //m_progressbar.setDisable(false);
         m_progresstext.setStyle("-fx-text-inner-color: white;");
         m_progresstext.setVisible(true);
 
-        ConvertText task = new ConvertText();
+        ConvertXslxFile task = new ConvertXslxFile();
         new Thread(task).start();
 
         //Disable progressbar and display check mark when finished. 
@@ -229,9 +208,8 @@ public class FXMLDocumentController implements Initializable
     }
 
     //Remember to fix this and break it down to smaller functions.  
-    class ConvertText extends Task<Void>
+    class ConvertXslxFile extends Task<Void>
     {
-
         @Override
         protected Void call() throws Exception
         {
@@ -243,13 +221,7 @@ public class FXMLDocumentController implements Initializable
                             .open(is))
             {
                 Sheet sheet = workbook.getSheetAt(workbook.getNumberOfSheets() - 1);
-
-                //System.out.println("Row: " + sheet.getRow(1));
-                //System.out.println(sheet.getSheetName());
-                //System.out.println(outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt");
-                //outputDirectory = outputDirectory == "C:" ? convertedFilename.replace(".xlsx", "") + "-converted" + ".txt" : outputDirectory + "\\" + convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
                 String thisOutputDirectory = outputDirectory + "\\" +  convertedFilename.replace(".xlsx", "") + "-converted" + ".txt";
-                //System.out.println(outputDirectory);
                 PrintWriter tdfile = new PrintWriter(new FileWriter(thisOutputDirectory));
 
                 LatLon latLon = UTMCoord.locationFromUTMCoord(10, AVKey.NORTH, 490599.86, 5458794.84);
@@ -266,25 +238,20 @@ public class FXMLDocumentController implements Initializable
                         Cell c = r.getCell(i);
                         if (c == null || "".equals(c.getStringCellValue()))
                         {
-                            //System.out.print("N/A" + "\t");
                             tdfile.print("N/A" + "\t");
                             counter++;
                         } else
                         {
-
                             if (counter % 10 < 8) //If not lat long, then just print value plus tab.  
                             {
-                                //System.out.print(c.getStringCellValue() + "\t");
                                 tdfile.print(c.getStringCellValue() + "\t");
                             } else if (counter % 10 == 8) //If last digit is 8 or 9, then it is lat and long, then convert. 
                             {
                                 if ("0".equals(c.getStringCellValue()))
                                 {
-                                    //System.out.print("0" + "\t");
                                     tdfile.print("0" + "\t");
-                                } else if ("X".equals(c.getStringCellValue())) //For the header row only no avoid error. 
+                                } else if ("X".equals(c.getStringCellValue())) //For the header row only to avoid error. 
                                 {
-                                    //System.out.print("X" + "\t");
                                     tdfile.print("X" + "\t");
                                 } else
                                 {
@@ -294,11 +261,9 @@ public class FXMLDocumentController implements Initializable
                             {
                                 if ("0".equals(c.getStringCellValue()))
                                 {
-                                    //System.out.println("0");
                                     tdfile.println("0");
                                 } else if ("Y".equals(c.getStringCellValue())) //For the header row only to avoid errors. 
                                 {
-                                    //System.out.println("Y");
                                     tdfile.println("Y");
                                 } else
                                 {
@@ -472,9 +437,9 @@ class CombineCSV extends Task<Void>
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        btn_convertfile.setDisable(true);
+        xlsx_convert_btn.setDisable(true);
         btn_convertCSV.setDisable(true);
-        m_about.setStyle("-fx-text-inner-color: white;");
+        home_about_details.setStyle("-fx-text-inner-color: white;");
     }
 
 }

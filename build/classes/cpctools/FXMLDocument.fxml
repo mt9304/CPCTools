@@ -17,27 +17,27 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Rectangle fx:id="m_current_pane" arcHeight="5.0" arcWidth="5.0" fill="#8c8890" height="25.0" layoutX="16.0" layoutY="104.0" stroke="#8c8890" strokeType="INSIDE" strokeWidth="0.0" width="73.0" />
+            <Rectangle fx:id="current_tab_indicator" arcHeight="5.0" arcWidth="5.0" fill="#8c8890" height="25.0" layoutX="16.0" layoutY="104.0" stroke="#8c8890" strokeType="INSIDE" strokeWidth="0.0" width="73.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="topbar" prefHeight="113.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
          <children>
-            <ImageView fx:id="btn_home" layoutX="20.0" layoutY="21.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_home" layoutX="20.0" layoutY="21.0" onMousePressed="#switchTabs" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/home.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btn_convert" layoutX="187.0" layoutY="21.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_xslx" layoutX="187.0" layoutY="21.0" onMousePressed="#switchTabs" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/excel.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btn_map" layoutX="288.0" layoutY="21.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_csv" layoutX="288.0" layoutY="21.0" onMousePressed="#switchTabs" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/csv.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btn_settings" layoutX="389.0" layoutY="21.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btn_settings" layoutX="389.0" layoutY="21.0" onMousePressed="#switchTabs" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/settings.png" />
                </image>
@@ -103,9 +103,9 @@
             </ImageView>
             <JFXTextField fx:id="c_completedtext" alignment="TOP_LEFT" editable="false" focusColor="#3d4956" layoutX="116.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text=" " unFocusColor="#3d4956" />
          </children></AnchorPane>
-      <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
+      <AnchorPane fx:id="t_convert" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
          <children>
-            <JFXButton fx:id="btn_browse" layoutX="99.0" layoutY="75.0" onMousePressed="#browseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse">
+            <JFXButton layoutX="99.0" layoutY="75.0" onMousePressed="#xlsxBrowseFile" prefHeight="36.0" prefWidth="132.0" style="-fx-background-color: white;" text="Browse" fx:id="xlsx_browse_btn">
                <font>
                   <Font size="18.0" />
                </font>
@@ -115,7 +115,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btn_convertfile" layoutX="99.0" layoutY="187.0" onMousePressed="#convertFile" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: white;" text="Convert">
+            <JFXButton layoutX="99.0" layoutY="187.0" onMousePressed="#xlsxConvertFile" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: white;" text="Convert" fx:id="xlsx_convert_btn">
                <font>
                   <Font size="18.0" />
                </font>
@@ -132,19 +132,19 @@
                </font>
             </JFXTextField>
          </children></AnchorPane>
-      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="t_home" layoutY="125.0" prefHeight="338.0" prefWidth="640.0" style="-fx-background-color: #3D4956;" visible="false">
          <children>
             <Label layoutX="33.0" layoutY="35.0" text="How To Use: " textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <ImageView fx:id="m_about_icon" fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="276.0" onMouseDragEntered="#showAbout" onMouseEntered="#showAbout" onMouseExited="#hideAbout" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="home_about_icon" fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="276.0" onMouseDragEntered="#showAbout" onMouseEntered="#showAbout" onMouseExited="#hideAbout" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/about.png" />
                </image>
             </ImageView>
-            <Label fx:id="m_about" alignment="TOP_LEFT" layoutX="70.0" layoutY="288.0" prefHeight="25.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.2" textFill="WHITE" visible="false">
+            <Label fx:id="home_about_details" alignment="TOP_LEFT" layoutX="70.0" layoutY="288.0" prefHeight="25.0" prefWidth="307.0" style="-fx-background-color: #A0A0A0;" text="Version: 1.0.2" textFill="WHITE" visible="false">
                <font>
                   <Font size="24.0" />
                </font>
@@ -152,25 +152,25 @@
                   <Insets left="10.0" top="5.0" />
                </padding>
             </Label>
-            <JFXTextArea focusColor="#3d4956" layoutX="118.0" layoutY="90.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Download and browse to the Crime XLSX sheet from the Vancouver data website. Press Convert to convert the file's UTM values to Lat/Long and save it as a tabs delimited txt file. File is the Crime XLSX All Years one from here: http://data.vancouver.ca/datacatalogue/crime-data-details.htm" unFocusColor="#3d4956">
+            <JFXTextArea editable="false" focusColor="#3d4956" layoutX="118.0" layoutY="90.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Download and browse to the Crime XLSX sheet from the Vancouver data website. Press Convert to convert the file's UTM values to Lat/Long and save it as a tabs delimited txt file. File is the Crime XLSX All Years one from here: http://data.vancouver.ca/datacatalogue/crime-data-details.htm" unFocusColor="#3d4956">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextArea>
-            <ImageView layoutX="38.0" layoutY="90.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView layoutX="38.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/excel.png" />
                </image>
             </ImageView>
-            <ImageView layoutX="38.0" layoutY="203.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView layoutX="38.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/csv.png" />
                </image>
             </ImageView>
             <Label layoutX="295.0" layoutY="300.0" text="Full instructions here: " textFill="WHITE" />
-            <Hyperlink fx:id="h_hyperlink" layoutX="411.0" layoutY="297.0" onAction="#visitHyperlink" prefHeight="23.0" prefWidth="211.0" text="https://github.com/mt9304/cpctools" />
+            <Hyperlink fx:id="home_hyperlink" layoutX="411.0" layoutY="297.0" onAction="#visitHyperlink" prefHeight="23.0" prefWidth="211.0" text="https://github.com/mt9304/cpctools" />
             <Separator layoutX="23.0" layoutY="193.0" prefHeight="3.0" prefWidth="604.0" />
-            <JFXTextArea focusColor="#3d4956" layoutX="115.0" layoutY="194.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Drag the csv files named &quot;Summary&quot; from the iPatrol email and press convert to combine them into one csv file. " unFocusColor="#3d4956">
+            <JFXTextArea editable="false" focusColor="#3d4956" layoutX="115.0" layoutY="194.0" prefHeight="94.0" prefWidth="507.0" style="-fx-text-fill: #ffffff;" text="Drag the csv files named &quot;Summary&quot; from the iPatrol email and press convert to combine them into one csv file. " unFocusColor="#3d4956">
                <font>
                   <Font size="20.0" />
                </font>
