@@ -4,7 +4,7 @@
 - [Converting UTM](#converting-utm-to-latitude-longitude)
 	- [Video Demonstration](#conversion-video-demo)
 - [Combining CSV](#combining-csv-files)
-	- [Video Demonstration](combining-video-demo)
+	- [Video Demonstration](#combining-video-demo)
 
 ## Introduction
 
