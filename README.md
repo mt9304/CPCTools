@@ -8,6 +8,8 @@
 
 ## Introduction
 
+To download, visit the [releases](https://github.com/mt9304/CPCTools/releases) section and download the Executable.zip file. You can then run the CPCTools.jar file. 
+
 This program was created to assist with 2 of the routine procedures needed for the mapping project. 
 
 The first procedure is for converting the crime data found [here](http://data.vancouver.ca/datacatalogue/crime-data-details.htm). For this routine, we would download the Crime (XLSX) file. This XLSX file contains the needed data for all years, but uses UTM coordinates for the events. We need to convert this data into a tab delimited TXT file with Latitude and Longitude coordinates before we can use it for our mapping software. This program automates the process of converting the coordinates and changing the file format. Coordinate conversion formulas used for this program were based on [this](https://github.com/Berico-Technologies/Geo-Coordinate-Conversion-Java). 
