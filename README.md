@@ -22,7 +22,7 @@ Note: I have heard that sometimes the third party software responsible for email
 
 1. Press on the Gear/Settings icon and select the output directory (where the file will be created). Some locations such as C:/ might not work due to permission issues, so you can try something like the Desktop or somewhere in My Documents. 
 
-2. Click Browse and select the XLSX file downloaded from [here]((http://data.vancouver.ca/datacatalogue/crime-data-details.htm). It should be named something like "crime_xlsx_all_years.xlsx." 
+2. Click Browse and select the XLSX file downloaded from [here](http://data.vancouver.ca/datacatalogue/crime-data-details.htm). It should be named something like "crime_xlsx_all_years.xlsx." 
 
 3. Click on the Convert button to start converting the file's coordinates from UTM to Latitude/Longitude and into a TXT file. Wait for the checkmark to appear to indicate completion. 
 
